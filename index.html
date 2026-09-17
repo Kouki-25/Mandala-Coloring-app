@@ -43,8 +43,8 @@
       position: absolute;
       left: 0; right: 0;
       height: 4px;
-      background: linear-gradient(90deg, rgba(245,158,11,0) 0%, rgba(245,158,11,1) 50%, rgba(245,158,11,0) 100%);
-      box-shadow: 0 0 15px #f59e0b, 0 0 30px #f59e0b;
+      background: linear-gradient(90deg, rgba(16,185,129,0) 0%, rgba(16,185,129,1) 50%, rgba(16,185,129,0) 100%);
+      box-shadow: 0 0 15px #10b981, 0 0 30px #10b981;
       animation: scanLine 1.8s ease-in-out infinite;
     }
   </style>
@@ -72,22 +72,22 @@
   <main class="flex-1 my-6">
     <div class="text-center mb-6">
       <h2 class="text-xl md:text-2xl font-bold text-stone-800">Choose a Difficulty Book</h2>
-      <p class="text-xs text-stone-600 mt-1">Houses, Animals, Complex Geometry & Sacred Floral Mandala</p>
+      <p class="text-xs text-stone-600 mt-1">Houses, Geometric Animals, Deep Mandala & Sacred Floral Art</p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       <div onclick="openBook('Beginner')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-emerald-800 to-teal-950 text-white shadow-md hover:-translate-y-1 transition">
         <div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-700">Beginner</span><span id="unlocked-count-Beginner" class="text-xs text-emerald-200">1/20 Unlocked</span></div>
-        <div class="text-center"><div class="text-4xl mb-2">🏠🐰</div><h3 class="text-xl font-bold">Houses & Animals</h3><p class="text-xs text-emerald-200">Easy shapes & varied objects</p></div>
+        <div class="text-center"><div class="text-4xl mb-2">🏠🐢</div><h3 class="text-xl font-bold">Houses & Animals</h3><p class="text-xs text-emerald-200">Easy outlines & broad zones</p></div>
         <div class="text-xs text-right font-semibold">Open Book &rarr;</div>
       </div>
       <div onclick="openBook('Intermediate')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-amber-800 to-stone-900 text-white shadow-md hover:-translate-y-1 transition">
         <div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-700">Intermediate</span><span id="unlocked-count-Intermediate" class="text-xs text-amber-200">1/20 Unlocked</span></div>
-        <div class="text-center"><div class="text-4xl mb-2">⭐🔷</div><h3 class="text-xl font-bold">Geometric Patterns</h3><p class="text-xs text-amber-200">Stars, lattice & floral grids</p></div>
+        <div class="text-center"><div class="text-4xl mb-2">🐋🐍</div><h3 class="text-xl font-bold">Geometric Wildlife</h3><p class="text-xs text-amber-200">Whales, Snakes & Patterns</p></div>
         <div class="text-xs text-right font-semibold">Open Book &rarr;</div>
       </div>
       <div onclick="openBook('Pro')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-purple-950 to-stone-950 text-white shadow-md hover:-translate-y-1 transition">
         <div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-800">Pro Master</span><span id="unlocked-count-Pro" class="text-xs text-rose-200">1/20 Unlocked</span></div>
-        <div class="text-center"><div class="text-4xl mb-2">🌸🌌</div><h3 class="text-xl font-bold">Sacred Mandala & Flowers</h3><p class="text-xs text-rose-200">Ultra rich floral micro details</p> rejection</div>
+        <div class="text-center"><div class="text-4xl mb-2">🐺🌌</div><h3 class="text-xl font-bold">Sacred Mandala & Wolf</h3><p class="text-xs text-rose-200">Ultra rich micro geometric details</p></div>
         <div class="text-xs text-right font-semibold">Open Book &rarr;</div>
       </div>
     </div>
@@ -124,7 +124,7 @@
       </div>
     </div>
 
-    <button id="complete-btn" onclick="startScanProcess()" class="px-6 py-2 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-stone-950 font-black text-xs sm:text-sm shadow-lg transform active:scale-95 transition flex items-center gap-2 border border-amber-300">
+    <button id="complete-btn" onclick="startScanProcess()" class="px-6 py-2 rounded-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-black text-xs sm:text-sm shadow-lg transform active:scale-95 transition flex items-center gap-2 border border-emerald-400">
       <span>✓</span> <span>VERIFY & COMPLETE</span>
     </button>
 
@@ -142,8 +142,8 @@
       <canvas id="paint-canvas" class="w-full h-full cursor-crosshair"></canvas>
       <div id="scan-overlay" class="absolute inset-0 bg-stone-950/40 backdrop-blur-[2px] hidden flex-col items-center justify-center z-30">
         <div class="scanner-line"></div>
-        <div class="bg-stone-900/90 text-amber-400 px-5 py-2.5 rounded-full font-bold text-xs shadow-2xl border border-amber-400/40 animate-pulse flex items-center gap-2">
-          <span>🔍</span> <span>AI SCANNING BOUNDARY ACCURACY...</span>
+        <div class="bg-stone-900/90 text-emerald-400 px-5 py-2.5 rounded-full font-bold text-xs shadow-2xl border border-emerald-400/40 animate-pulse flex items-center gap-2">
+          <span>🔍</span> <span>AI SCANNING ACCURACY...</span>
         </div>
       </div>
     </div>
@@ -174,7 +174,7 @@
     <div class="my-4 p-3 rounded-2xl bg-amber-50 border border-amber-200 flex justify-around font-bold text-sm">
       <div><span class="text-xs text-stone-500 block">Earned</span><span id="result-pts" class="text-amber-700">+200 PTS</span></div>
     </div>
-    <button onclick="closeResultModal()" class="w-full py-2.5 rounded-xl bg-stone-900 text-stone-100 font-bold text-xs shadow-md">Continue</button>
+    <button onclick="closeResultModal()" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-md hover:bg-emerald-700">Continue</button>
   </div>
 </div>
 
@@ -188,7 +188,7 @@
       <span>💔 💔 💔</span> &rarr; <span>❤️❤️❤️</span>
     </div>
     <div class="flex flex-col gap-2">
-      <button onclick="reviveHearts()" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-stone-950 font-black text-xs shadow-md hover:brightness-105 active:scale-95 transition">
+      <button onclick="reviveHearts()" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-black text-xs shadow-md hover:brightness-105 active:scale-95 transition">
         REVIVE FOR ⭐ 300 PTS
       </button>
       <button onclick="closeReviveModal()" class="w-full py-2 rounded-xl bg-stone-100 text-stone-600 font-bold text-xs hover:bg-stone-200">
@@ -247,7 +247,6 @@ let selectedColor = PALETTE[0];
 let brushSize = 6;
 let unlocked = JSON.parse(localStorage.getItem('m_unlocked_v4') || '{"Beginner":[1],"Intermediate":[1],"Pro":[1]}');
 let gallery = JSON.parse(localStorage.getItem('m_gallery') || '[]');
-let historyStack = [];
 
 const canvas = document.getElementById('paint-canvas');
 const ctx = canvas.getContext('2d');
@@ -346,83 +345,105 @@ function openBook(b) {
   showScreen('levels');
 }
 
+// Procedural Rich Vector Generator (Unique per level)
 function drawMandalaTemplateToCtx(targetCtx, diff, lvl, w=1000, h=1000) {
   targetCtx.save();
   targetCtx.fillStyle = '#FFFFFF';
   targetCtx.fillRect(0, 0, w, h);
   targetCtx.strokeStyle = '#000000';
-  targetCtx.lineWidth = diff === 'Beginner' ? 8 : diff === 'Intermediate' ? 5 : 3;
+  targetCtx.lineWidth = diff === 'Beginner' ? 6 : diff === 'Intermediate' ? 4 : 2.5;
 
   const s = w / 1000;
   targetCtx.scale(s, s);
 
   if (diff === 'Beginner') {
-    switch(lvl) {
-      case 1:
-        targetCtx.strokeRect(250, 450, 500, 400);
-        targetCtx.beginPath(); targetCtx.moveTo(200, 450); targetCtx.lineTo(500, 180); targetCtx.lineTo(800, 450); targetCtx.closePath(); targetCtx.stroke();
-        targetCtx.strokeRect(430, 600, 140, 250); targetCtx.strokeRect(300, 500, 100, 100); targetCtx.strokeRect(600, 500, 100, 100);
-        break;
-      case 2:
-        targetCtx.beginPath(); targetCtx.arc(500, 550, 250, 0, Math.PI*2); targetCtx.stroke();
-        targetCtx.beginPath(); targetCtx.moveTo(280, 360); targetCtx.lineTo(200, 150); targetCtx.lineTo(380, 310); targetCtx.stroke();
-        targetCtx.beginPath(); targetCtx.moveTo(720, 360); targetCtx.lineTo(800, 150); targetCtx.lineTo(620, 310); targetCtx.stroke();
-        targetCtx.strokeRect(380, 480, 60, 60); targetCtx.strokeRect(560, 480, 60, 60);
-        break;
-      case 3:
-        targetCtx.translate(500, 500);
-        for(let i=0; i<8; i++){
-          targetCtx.rotate(Math.PI/4);
-          targetCtx.beginPath(); targetCtx.arc(0, -180, 110, 0, Math.PI*2); targetCtx.stroke();
+    // Beginner designs: Houses, Turtles, Poly shapes
+    const type = lvl % 4;
+    if (type === 1) { // Geometric House & Sun
+      targetCtx.strokeRect(250, 450, 500, 400);
+      targetCtx.beginPath(); targetCtx.moveTo(200, 450); targetCtx.lineTo(500, 180); targetCtx.lineTo(800, 450); targetCtx.closePath(); targetCtx.stroke();
+      targetCtx.strokeRect(430, 600, 140, 250); targetCtx.strokeRect(300, 500, 100, 100); targetCtx.strokeRect(600, 500, 100, 100);
+      targetCtx.beginPath(); targetCtx.arc(180, 180, 70, 0, Math.PI*2); targetCtx.stroke();
+    } else if (type === 2) { // Turtle Pattern
+      targetCtx.translate(500, 500);
+      targetCtx.beginPath(); targetCtx.ellipse(0, 0, 200, 260, 0, 0, Math.PI*2); targetCtx.stroke();
+      targetCtx.beginPath(); targetCtx.arc(0, -310, 70, 0, Math.PI*2); targetCtx.stroke(); // Head
+      for(let a of [-0.7, 0.7, 2.4, 3.8]) {
+        targetCtx.beginPath(); targetCtx.arc(Math.cos(a)*230, Math.sin(a)*230, 45, 0, Math.PI*2); targetCtx.stroke();
+      }
+      for(let r=40; r<=160; r+=40) {
+        targetCtx.beginPath(); targetCtx.arc(0, 0, r, 0, Math.PI*2); targetCtx.stroke();
+      }
+    } else if (type === 3) { // Polygonal Star Grid
+      targetCtx.translate(500, 500);
+      let sides = 4 + (lvl % 5);
+      for(let r=1; r<=lvl+2; r++) {
+        let rad = r * 40;
+        targetCtx.beginPath();
+        for(let i=0; i<sides; i++) {
+          let a = (i * Math.PI * 2) / sides;
+          let x = Math.cos(a)*rad, y = Math.sin(a)*rad;
+          if(i===0) targetCtx.moveTo(x, y); else targetCtx.lineTo(x, y);
         }
-        targetCtx.beginPath(); targetCtx.arc(0, 0, 100, 0, Math.PI*2); targetCtx.stroke();
-        break;
-      default:
-        targetCtx.translate(500, 500);
-        let sides = 3 + (lvl % 6);
-        for(let r=1; r<=4; r++){
-          let rad = r * 90;
-          targetCtx.beginPath();
-          for(let i=0; i<sides; i++){
-            let a = (i*Math.PI*2)/sides;
-            let x = rad * Math.cos(a), y = rad * Math.sin(a);
-            if(i===0) targetCtx.moveTo(x, y); else targetCtx.lineTo(x, y);
-          }
-          targetCtx.closePath(); targetCtx.stroke();
-        }
-        break;
+        targetCtx.closePath(); targetCtx.stroke();
+      }
+    } else { // Flower Easy Pattern
+      targetCtx.translate(500, 500);
+      let petals = 6 + (lvl % 4);
+      for(let i=0; i<petals; i++) {
+        targetCtx.rotate((Math.PI*2)/petals);
+        targetCtx.beginPath(); targetCtx.arc(0, -160, 100, 0, Math.PI*2); targetCtx.stroke();
+      }
+      targetCtx.beginPath(); targetCtx.arc(0, 0, 100, 0, Math.PI*2); targetCtx.stroke();
     }
   } else if (diff === 'Intermediate') {
+    // Intermediate designs: Whale Mandala, Snake Lattice, Giraffe Frame
+    const type = lvl % 3;
     targetCtx.translate(500, 500);
-    switch(lvl) {
-      case 1:
-        for(let r=1; r<=7; r++) {
-          let sz = r * 60;
-          targetCtx.beginPath();
-          targetCtx.moveTo(0, -sz); targetCtx.lineTo(sz, sz); targetCtx.lineTo(-sz, sz);
-          targetCtx.closePath(); targetCtx.stroke();
+    if (type === 1) { // Whale Geometric Art
+      targetCtx.beginPath(); targetCtx.ellipse(0, -50, 180, 320, Math.PI/4, 0, Math.PI*2); targetCtx.stroke();
+      targetCtx.beginPath(); targetCtx.ellipse(-150, 180, 80, 160, -Math.PI/3, 0, Math.PI*2); targetCtx.stroke();
+      for(let r=20; r<=280; r+=30) {
+        targetCtx.beginPath(); targetCtx.arc(0, 0, r, 0, Math.PI); targetCtx.stroke();
+      }
+    } else if (type === 2) { // Snake / Spiral Lattice
+      for(let i=0; i<40; i++) {
+        let a = i * 0.3;
+        let r = 20 + i * 10;
+        targetCtx.beginPath(); targetCtx.arc(Math.cos(a)*r, Math.sin(a)*r, 25, 0, Math.PI*2); targetCtx.stroke();
+      }
+    } else { // Decorative Mandala Wheel
+      let rays = 12 + lvl;
+      for(let r=1; r<=6; r++) {
+        let rad = r * 60;
+        targetCtx.beginPath(); targetCtx.arc(0, 0, rad, 0, Math.PI*2); targetCtx.stroke();
+        for(let i=0; i<rays; i++) {
+          let a = (i*Math.PI*2)/rays;
+          targetCtx.beginPath(); targetCtx.moveTo(Math.cos(a)*(rad-60), Math.sin(a)*(rad-60));
+          targetCtx.lineTo(Math.cos(a)*rad, Math.sin(a)*rad); targetCtx.stroke();
         }
-        break;
-      default:
-        let petals = 6 + (lvl % 7);
-        for(let r=1; r<=5; r++){
-          let rad = r * 70;
-          for(let p=0; p<petals; p++){
-            targetCtx.rotate((Math.PI*2)/petals);
-            targetCtx.strokeRect(-rad/2, -rad/2, rad, rad);
-          }
-        }
-        break;
+      }
     }
   } else {
+    // Pro Master: Geometric Wolf Head & Deep Sacred Mandala
     targetCtx.translate(500, 500);
-    let density = 12 + (lvl % 8) * 2;
-    for(let r=1; r<=8; r++){
-      let rad = r * 50;
-      targetCtx.beginPath(); targetCtx.arc(0, 0, rad, 0, Math.PI*2); targetCtx.stroke();
-      for(let p=0; p<density; p++){
-        targetCtx.rotate((Math.PI*2)/density);
-        targetCtx.beginPath(); targetCtx.arc(rad, 0, 30, 0, Math.PI*2); targetCtx.stroke();
+    if (lvl % 2 === 1) { // Geometric Wolf Head Structure
+      targetCtx.beginPath(); targetCtx.moveTo(0, -350); targetCtx.lineTo(180, -200); targetCtx.lineTo(250, 50); targetCtx.lineTo(0, 350); targetCtx.lineTo(-250, 50); targetCtx.lineTo(-180, -200); targetCtx.closePath(); targetCtx.stroke();
+      targetCtx.beginPath(); targetCtx.moveTo(0, -350); targetCtx.lineTo(0, 350); targetCtx.stroke();
+      targetCtx.beginPath(); targetCtx.moveTo(-180, -200); targetCtx.lineTo(180, -200); targetCtx.stroke();
+      targetCtx.beginPath(); targetCtx.moveTo(-250, 50); targetCtx.lineTo(250, 50); targetCtx.stroke();
+      for(let i=-200; i<=200; i+=50) {
+        targetCtx.beginPath(); targetCtx.moveTo(i, -100); targetCtx.lineTo(0, i); targetCtx.stroke();
+      }
+    } else { // Ultra Dense Circular Mandala Grid
+      let density = 16 + (lvl % 6) * 2;
+      for(let r=1; r<=9; r++) {
+        let rad = r * 45;
+        targetCtx.beginPath(); targetCtx.arc(0, 0, rad, 0, Math.PI*2); targetCtx.stroke();
+        for(let p=0; p<density; p++) {
+          let a = (p * Math.PI * 2) / density;
+          targetCtx.beginPath(); targetCtx.arc(Math.cos(a)*rad, Math.sin(a)*rad, 20, 0, Math.PI*2); targetCtx.stroke();
+        }
       }
     }
   }
@@ -451,7 +472,7 @@ function renderLevels() {
         <div class="text-[10px] font-bold uppercase text-stone-400">${currentBook} Level</div>
         <div class="text-xs font-bold truncate">Pattern #${i}</div>
       </div>
-      <button class="mt-2 w-full py-1.5 rounded-lg text-xs font-bold ${isUnlocked ? 'bg-stone-900 text-white' : 'bg-amber-400 text-stone-950'}">
+      <button class="mt-2 w-full py-1.5 rounded-lg text-xs font-bold ${isUnlocked ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm' : 'bg-amber-400 text-stone-950'}">
         ${isUnlocked ? 'Color Now' : `Unlock ⭐ ${cost}`}
       </button>`;
     card.onclick = () => {
@@ -485,23 +506,15 @@ function startColoring(lvl) {
 function initCanvas() {
   canvas.width = 1000; canvas.height = 1000;
   maskCanvas.width = 1000; maskCanvas.height = 1000;
-  historyStack = [];
   
   drawMandalaTemplateToCtx(ctx, currentBook, currentLevel, 1000, 1000);
   drawMandalaTemplateToCtx(maskCtx, currentBook, currentLevel, 1000, 1000);
   
   resetZoom();
-  saveHistory();
-}
-
-function saveHistory() {
-  if (historyStack.length > 10) historyStack.shift();
-  historyStack.push(ctx.getImageData(0, 0, 1000, 1000));
 }
 
 function clearCanvas() {
   drawMandalaTemplateToCtx(ctx, currentBook, currentLevel, 1000, 1000);
-  saveHistory();
 }
 
 function getCanvasCoordinates(e) {
@@ -534,10 +547,7 @@ function draw(e) {
 }
 
 function stopDrawing() {
-  if (isDrawing) {
-    isDrawing = false;
-    saveHistory();
-  }
+  isDrawing = false;
 }
 
 canvas.addEventListener('mousedown', startDrawing);
