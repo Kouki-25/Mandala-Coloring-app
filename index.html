@@ -2,34 +2,31 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>✨ MANDALA ART ✨</title>
-
-  <!-- مكتبة Tailwind CSS للتنسيق الأصلي -->
   <script src="https://cdn.tailwindcss.com"></script>
-
   <style>
-    /* قفل الواجهة الرئيسية ومنع السحب الجانبي واهتزاز الشاشة */
+    * {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
     html, body {
       width: 100% !important;
       height: 100% !important;
       margin: 0 !important;
       padding: 0 !important;
       overflow: hidden !important;
-      touch-action: manipulation;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-      -webkit-user-select: none;
+      background-color: #f5f5f4;
     }
-
-    /* إتاحة حركة التكبير (Zoom) واللمس الحر فقط داخل منطقة الرسم */
-    canvas, #stage-wrapper, .drawing-area {
-      touch-action: auto !important;
+    #paint-canvas {
+      touch-action: none !important;
     }
-
-    /* ضمان استجابة فورية للأزرار عند الضغط باللمس */
-    button, .cursor-pointer {
-      touch-action: manipulation !important;
+    .palette-btn.active {
+      transform: scale(1.2);
+      outline: 3px solid #1c1917;
+      outline-offset: 2px;
     }
   </style>
 </head>
@@ -37,151 +34,119 @@
 
 <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl bg-stone-900 text-amber-300 border border-amber-400/50 shadow-2xl text-xs sm:text-sm font-semibold hidden items-center gap-2"></div>
 
-<!-- الشاشة الرئيسية: الكتب والمستوى -->
+<!-- Home Screen -->
 <div id="screen-home" class="flex-1 flex flex-col w-full max-w-5xl mx-auto p-4 md:p-8 overflow-y-auto">
-<header class="flex items-center justify-between pb-5 border-b border-stone-200">
-<div id="hearts-container" class="flex items-center gap-1 bg-white px-3.5 py-1.5 rounded-full border border-stone-200 shadow-sm text-rose-500 text-lg">
-<span id="h1">❤️</span><span id="h2">❤️</span><span id="h3">❤️</span>
-</div>
-<div class="text-center">
-<h1 class="text-2xl md:text-3xl font-serif-lux font-bold tracking-tight text-stone-900">✨ MANDALA ART ✨</h1>
-<p class="text-[11px] text-stone-500 uppercase tracking-widest font-bold">Adult Coloring Atelier</p>
-</div>
-<div class="flex items-center gap-2">
-<button onclick="addMaxMoney()" class="px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-stone-950 font-bold text-xs shadow-sm active:scale-95">💰 Get Max Money</button>
-<button onclick="toggleSound()" id="sound-btn" class="p-2 rounded-full bg-stone-200 hover:bg-stone-300 text-xs">🔊</button>
-<div id="points-badge" class="bg-amber-100 text-amber-900 px-3 py-1.5 rounded-full border border-amber-300 font-bold text-xs sm:text-sm">⭐ 1,000 PTS</div>
-</div>
-</header>
-<main class="flex-1 my-6">
-<div class="text-center mb-6">
-<h2 class="text-xl md:text-2xl font-serif-lux font-bold text-stone-800">Choose a Difficulty Book</h2>
-<p class="text-xs text-stone-600 mt-1">3D Cubes, Sacred Tables, Lotus Stars &amp; Celestial Mandalas</p>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-<div onclick="openBook('Beginner')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-emerald-800 to-teal-950 text-white shadow-md hover:-translate-y-1 hover:shadow-xl transition">
-<div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-700">Beginner</span><span id="unlocked-count-Beginner" class="text-xs text-emerald-200">2/20 Unlocked</span></div>
-<div class="text-center"><div class="text-4xl mb-2">🌿</div><h3 class="text-xl font-serif-lux font-bold">Botanical &amp; 3D Cubes</h3><p class="text-xs text-emerald-200">Fluid petals, cubes &amp; altars</p></div>
-<div class="text-xs text-right font-semibold">Open Book &rarr;</div>
-</div>
-<div onclick="openBook('Intermediate')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-amber-800 to-stone-900 text-white shadow-md hover:-translate-y-1 hover:shadow-xl transition">
-<div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-700">Intermediate</span><span id="unlocked-count-Intermediate" class="text-xs text-amber-200">1/20 Unlocked</span></div>
-<div class="text-center"><div class="text-4xl mb-2">✨</div><h3 class="text-xl font-serif-lux font-bold">Sacred Tables &amp; Prisms</h3><p class="text-xs text-amber-200">Tessellations &amp; starbursts</p></div>
-<div class="text-xs text-right font-semibold">Open Book &rarr;</div>
-</div>
-<div onclick="openBook('Pro')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-purple-950 to-stone-950 text-white shadow-md hover:-translate-y-1 hover:shadow-xl transition">
-<div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-800">Pro</span><span id="unlocked-count-Pro" class="text-xs text-rose-200">1/20 Unlocked</span></div>
-<div class="text-center"><div class="text-4xl mb-2">🌌</div><h3 class="text-xl font-serif-lux font-bold">Cosmic &amp; Quantum Cubes</h3><p class="text-xs text-rose-200">Metatron matrices &amp; filigree</p></div>
-<div class="text-xs text-right font-semibold">Open Book &rarr;</div>
-</div>
-</div>
-</main>
-<footer class="pt-4 border-t border-stone-200 flex justify-between">
-<button onclick="toggleGalerie(true)" class="px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-stone-800 font-semibold text-xs shadow-sm">🖼️ La Galerie (<span id="galerie-count">0</span>)</button>
-<button onclick="addMaxMoney()" class="px-4 py-2 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-100 font-semibold text-xs shadow-sm">✨ Instant Max Money</button>
-</footer>
+  <header class="flex items-center justify-between pb-5 border-b border-stone-200 shrink-0">
+    <div class="flex items-center gap-1 bg-white px-3.5 py-1.5 rounded-full border border-stone-200 shadow-sm text-rose-500 text-lg">
+      <span>❤️</span><span>❤️</span><span>❤️</span>
+    </div>
+    <div class="text-center">
+      <h1 class="text-2xl md:text-3xl font-bold text-stone-900">✨ MANDALA ART ✨</h1>
+      <p class="text-[11px] text-stone-500 uppercase tracking-widest font-bold">Adult Coloring Atelier</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="toggleSound()" id="sound-btn" class="p-2 rounded-full bg-stone-200 hover:bg-stone-300 text-xs">🔊</button>
+      <div id="points-badge" class="bg-amber-100 text-amber-900 px-3.5 py-1.5 rounded-full border border-amber-300 font-bold text-xs sm:text-sm">⭐ 1,000 PTS</div>
+    </div>
+  </header>
+
+  <main class="flex-1 my-6">
+    <div class="text-center mb-6">
+      <h2 class="text-xl md:text-2xl font-bold text-stone-800">Choose a Difficulty Book</h2>
+      <p class="text-xs text-stone-600 mt-1">From Simple Relaxing Patterns to Ultra-Complex Sacred Geometry</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div onclick="openBook('Beginner')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-emerald-800 to-teal-950 text-white shadow-md hover:-translate-y-1 transition">
+        <div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-700">Beginner</span><span id="unlocked-count-Beginner" class="text-xs text-emerald-200">2/20 Unlocked</span></div>
+        <div class="text-center"><div class="text-4xl mb-2">🌿</div><h3 class="text-xl font-bold">Botanical & Soft Mandalas</h3><p class="text-xs text-emerald-200">Relaxing & Medium spaces</p></div>
+        <div class="text-xs text-right font-semibold">Open Book &rarr;</div>
+      </div>
+      <div onclick="openBook('Intermediate')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-amber-800 to-stone-900 text-white shadow-md hover:-translate-y-1 transition">
+        <div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-700">Intermediate</span><span id="unlocked-count-Intermediate" class="text-xs text-amber-200">1/20 Unlocked</span></div>
+        <div class="text-center"><div class="text-4xl mb-2">✨</div><h3 class="text-xl font-bold">Geometric & Lattice</h3><p class="text-xs text-amber-200">Detailed patterns & 3D tiles</p></div>
+        <div class="text-xs text-right font-semibold">Open Book &rarr;</div>
+      </div>
+      <div onclick="openBook('Pro')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-purple-950 to-stone-950 text-white shadow-md hover:-translate-y-1 transition">
+        <div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-800">Pro Master</span><span id="unlocked-count-Pro" class="text-xs text-rose-200">1/20 Unlocked</span></div>
+        <div class="text-center"><div class="text-4xl mb-2">🌌</div><h3 class="text-xl font-bold">Ultra-Complex Metatron</h3><p class="text-xs text-rose-200">Micro-details for adult focus</p></div>
+        <div class="text-xs text-right font-semibold">Open Book &rarr;</div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="pt-4 border-t border-stone-200 flex justify-between shrink-0">
+    <button onclick="toggleGalerie(true)" class="px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-stone-800 font-semibold text-xs shadow-sm">🖼️ La Galerie (<span id="galerie-count">0</span>)</button>
+  </footer>
 </div>
 
-<!-- شاشة قائمة المستويات -->
-<div id="screen-levels" class="flex-1 flex-col w-full max-w-5xl mx-auto p-4 md:p-6 overflow-hidden hidden">
-<header class="flex flex-wrap items-center justify-between pb-3 border-b border-stone-200 gap-2">
-<div class="flex items-center gap-2">
-<button onclick="showScreen('home')" class="p-2 rounded-lg hover:bg-stone-200 font-bold text-xs">&larr; Bookshelf</button>
-<h2 id="book-title-header" class="text-base md:text-lg font-serif-lux font-bold">Beginner Book</h2>
-</div>
-<div class="flex items-center gap-2">
-<button onclick="addMaxMoney()" class="px-3 py-1 rounded-full bg-amber-500 hover:bg-amber-400 font-bold text-xs text-stone-950">💰 Get Max Money</button>
-<button onclick="unlockAllInCurrentBook()" class="px-3 py-1 rounded-full bg-stone-900 hover:bg-stone-800 font-semibold text-xs text-amber-300">🔓 Unlock All</button>
-<div id="book-points-badge" class="bg-amber-100 text-amber-900 px-3 py-1 rounded-full font-bold text-xs">⭐ 1,000</div>
-</div>
-</header>
-<div class="flex items-center gap-1.5 overflow-x-auto py-2.5 border-b border-stone-200">
-<span class="text-[11px] font-bold text-stone-500 uppercase mr-1">Filter:</span>
-<button onclick="setFilter('All')" class="filter-tab px-3 py-1 rounded-full text-xs font-semibold bg-stone-900 text-white" data-cat="All">All</button>
-<button onclick="setFilter('Cube 3D')" class="filter-tab px-3 py-1 rounded-full text-xs font-semibold bg-stone-200 text-stone-700" data-cat="Cube 3D">Cube 3D</button>
-<button onclick="setFilter('Sacred Table')" class="filter-tab px-3 py-1 rounded-full text-xs font-semibold bg-stone-200 text-stone-700" data-cat="Sacred Table">Sacred Table</button>
-<button onclick="setFilter('Lotus Flower')" class="filter-tab px-3 py-1 rounded-full text-xs font-semibold bg-stone-200 text-stone-700" data-cat="Lotus Flower">Lotus Flower</button>
-<button onclick="setFilter('Celestial')" class="filter-tab px-3 py-1 rounded-full text-xs font-semibold bg-stone-200 text-stone-700" data-cat="Celestial">Celestial</button>
-</div>
-<main id="levels-grid" class="flex-1 overflow-y-auto py-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></main>
+<!-- Levels Screen -->
+<div id="screen-levels" class="flex-1 flex flex-col w-full max-w-5xl mx-auto p-4 md:p-6 overflow-hidden hidden">
+  <header class="flex items-center justify-between pb-3 border-b border-stone-200 shrink-0">
+    <div class="flex items-center gap-2">
+      <button onclick="showScreen('home')" class="p-2 rounded-lg hover:bg-stone-200 font-bold text-xs">&larr; Bookshelf</button>
+      <h2 id="book-title-header" class="text-base md:text-lg font-bold">Beginner Book</h2>
+    </div>
+    <div class="flex items-center gap-2">
+      <div id="book-points-badge" class="bg-amber-100 text-amber-900 px-3 py-1 rounded-full font-bold text-xs">⭐ 1,000</div>
+    </div>
+  </header>
+
+  <main id="levels-grid" class="flex-1 overflow-y-auto py-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></main>
 </div>
 
-<!-- شاشة التلوين الرسمية -->
-<div id="screen-coloring" class="flex-1 flex-col w-full h-full overflow-hidden hidden bg-stone-100">
-<header class="h-14 bg-white border-b border-stone-200 px-4 flex items-center justify-between z-20 shrink-0">
-<div class="flex items-center gap-3">
-<button onclick="showScreen('levels')" class="p-2 rounded-lg hover:bg-stone-100 font-bold text-sm">&larr;</button>
-<div>
-<h3 id="current-mandala-title" class="text-xs md:text-sm font-serif-lux font-bold leading-none">Mandala</h3>
-<span id="current-mandala-sub" class="text-[10px] text-stone-500">Level</span>
-</div>
-</div>
-<div class="flex items-center gap-1.5 text-rose-500 text-sm font-bold">
-<span id="ch1">❤️</span><span id="ch2">❤️</span><span id="ch3">❤️</span>
-<span id="coloring-points-badge" class="ml-2 bg-amber-100 text-amber-900 px-2 py-0.5 rounded-full text-xs">⭐ 1,000</span>
-</div>
-<div class="flex items-center gap-2">
-<button onclick="undo()" class="p-1.5 rounded-lg hover:bg-stone-100 text-xs font-bold">↶ Undo</button>
-<button onclick="clearCanvas()" class="p-1.5 rounded-lg hover:bg-stone-100 text-xs font-bold">🗑️ Clear</button>
-<button id="complete-btn" onclick="completeMandala()" class="px-4 py-1.5 rounded-full bg-stone-900 hover:bg-stone-800 text-amber-300 font-bold text-xs shadow-md">✓ Complete</button>
-</div>
-</header>
-<main class="flex-1 relative flex items-center justify-center p-2 overflow-hidden bg-stone-200/60">
-<div id="stage-wrapper" class="relative aspect-square max-w-[min(100%,calc(100dvh-175px))] max-h-[min(100%,calc(100dvh-175px))] w-full h-full rounded-2xl bg-white canvas-shadow overflow-hidden">
-<canvas id="paint-canvas" class="absolute inset-0 w-full h-full z-10 cursor-crosshair select-none"></canvas>
-<div id="svg-overlay" class="absolute inset-0 w-full h-full z-20 pointer-events-none select-none flex items-center justify-center p-2"></div>
-<div id="laser-beam" class="absolute left-0 right-0 h-1.5 bg-red-500 z-30 pointer-events-none animate-laser laser-glow hidden"></div>
-</div>
-</main>
-<footer class="bg-white border-t border-stone-200 px-4 py-2 flex flex-col justify-between shrink-0 h-28">
-<div class="flex items-center justify-between gap-4 overflow-x-auto pb-1">
-<div class="flex items-center gap-1 bg-stone-100 p-1 rounded-xl shrink-0">
-<button onclick="setPen('fineBrush')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white shadow-sm" data-pen="fineBrush">🖌️ Brush</button>
-<button onclick="setPen('marker')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="marker">🖍️ Marker</button>
-<button onclick="setPen('pencil')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="pencil">✏️ Pencil</button>
-<button onclick="setPen('finePen')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="finePen">🖋️ 0.3mm</button>
-<button onclick="setPen('eraser')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="eraser">🧽 Eraser</button>
-</div>
-<div class="flex items-center gap-3 shrink-0 text-xs text-stone-600">
-<label class="flex items-center gap-1 font-semibold text-[11px]">Size <input id="brush-size" type="range" min="3" max="36" value="12" class="w-16 accent-stone-900" oninput="brushSize=+this.value"></label>
-<label class="flex items-center gap-1 font-semibold text-[11px]">Opacity <input id="brush-opacity" type="range" min="0.2" max="1" step="0.05" value="0.85" class="w-16 accent-stone-900" oninput="brushOpacity=+this.value"></label>
-</div>
-</div>
-<!-- الألوان -->
-<div id="palette-swatches" class="flex items-center gap-2 overflow-x-auto py-1"></div>
-</footer>
+<!-- Coloring Screen -->
+<div id="screen-coloring" class="flex-1 flex flex-col w-full h-full overflow-hidden hidden bg-stone-100">
+  <header class="h-14 bg-white border-b border-stone-200 px-4 flex items-center justify-between z-20 shrink-0">
+    <div class="flex items-center gap-3">
+      <button onclick="showScreen('levels')" class="p-2 rounded-lg hover:bg-stone-100 font-bold text-sm">&larr;</button>
+      <div>
+        <h3 id="current-mandala-title" class="text-xs md:text-sm font-bold leading-none">Mandala</h3>
+        <span id="current-mandala-sub" class="text-[10px] text-stone-500">Level</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="undo()" class="p-1.5 rounded-lg hover:bg-stone-100 text-xs font-bold">↶ Undo</button>
+      <button onclick="clearCanvas()" class="p-1.5 rounded-lg hover:bg-stone-100 text-xs font-bold">🗑️ Clear</button>
+      <button id="complete-btn" onclick="completeMandala()" class="px-4 py-1.5 rounded-full bg-stone-900 hover:bg-stone-800 text-amber-300 font-bold text-xs shadow-md">✓ Complete</button>
+    </div>
+  </header>
+
+  <main class="flex-1 relative flex items-center justify-center p-2 overflow-hidden bg-stone-200/60">
+    <div id="stage-wrapper" class="relative aspect-square max-w-[min(100%,calc(100dvh-175px))] max-h-[min(100%,calc(100dvh-175px))] w-full h-full rounded-2xl bg-white shadow-xl overflow-hidden flex items-center justify-center">
+      <canvas id="paint-canvas" class="w-full h-full cursor-crosshair"></canvas>
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-stone-200 px-4 py-2 flex flex-col justify-between shrink-0 h-28">
+    <div class="flex items-center justify-between gap-4 overflow-x-auto pb-1">
+      <div class="flex items-center gap-1 bg-stone-100 p-1 rounded-xl shrink-0">
+        <button onclick="setPen('fineBrush')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white shadow-sm" data-pen="fineBrush">🖌️ Brush</button>
+        <button onclick="setPen('marker')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="marker">🖍️ Marker</button>
+        <button onclick="setPen('pencil')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="pencil">✏️ Pencil</button>
+        <button onclick="setPen('finePen')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="finePen">🖋️ 0.3mm</button>
+        <button onclick="setPen('eraser')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="eraser">🧽 Eraser</button>
+      </div>
+      <div class="flex items-center gap-3 shrink-0 text-xs text-stone-600">
+        <label class="flex items-center gap-1 font-semibold text-[11px]">Size <input id="brush-size" type="range" min="2" max="30" value="8" class="w-16 accent-stone-900" oninput="brushSize=+this.value"></label>
+      </div>
+    </div>
+    <!-- Color Swatches -->
+    <div id="palette-swatches" class="flex items-center gap-3 overflow-x-auto py-1 px-1"></div>
+  </footer>
 </div>
 
-<!-- النافذة المنبثقة للنتائج -->
-<div id="modal-result" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
-<div class="w-full max-w-sm rounded-3xl bg-white shadow-2xl p-6 text-center border border-stone-200">
-<div id="result-icon" class="text-4xl mb-2">🏆</div>
-<h3 id="result-title" class="text-xl font-serif-lux font-bold">Passed with Honors!</h3>
-<p id="result-msg" class="text-xs text-stone-600 mt-2"></p>
-<div class="my-4 p-3 rounded-2xl bg-amber-50 border border-amber-200 flex justify-around font-bold text-sm">
-<div><span class="text-xs text-stone-500 block">Score</span><span id="result-score">90 / 100</span></div>
-<div><span class="text-xs text-stone-500 block">Earned</span><span id="result-pts" class="text-amber-700">+270 PTS</span></div>
-</div>
-<div class="flex gap-2">
-<button id="result-next-btn" onclick="nextPattern()" class="flex-1 py-2.5 rounded-xl bg-stone-900 text-stone-100 font-bold text-xs shadow-md">Next Pattern</button>
-<button onclick="closeResultModal()" class="px-4 py-2.5 rounded-xl bg-stone-100 text-stone-800 font-bold text-xs border border-stone-200">Close</button>
-</div>
-</div>
-</div>
-
-<!-- المعرض -->
+<!-- Modal Galerie -->
 <div id="modal-galerie" class="fixed inset-0 z-50 bg-stone-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
-<div class="w-full max-w-3xl max-h-[85vh] rounded-3xl bg-white shadow-2xl flex flex-col overflow-hidden border border-stone-200">
-<header class="p-4 border-b border-stone-200 flex justify-between items-center">
-<h3 class="font-serif-lux font-bold text-lg">La Galerie d'Art</h3>
-<button onclick="toggleGalerie(false)" class="p-2 font-bold text-sm text-stone-500 hover:text-black">&times;</button>
-</header>
-<main id="galerie-items" class="flex-1 overflow-y-auto p-4 grid grid-cols-2 sm:grid-cols-3 gap-4"></main>
-</div>
+  <div class="w-full max-w-3xl max-h-[85vh] rounded-3xl bg-white shadow-2xl flex flex-col overflow-hidden border border-stone-200">
+    <header class="p-4 border-b border-stone-200 flex justify-between items-center">
+      <h3 class="font-bold text-lg">La Galerie d'Art</h3>
+      <button onclick="toggleGalerie(false)" class="p-2 font-bold text-sm text-stone-500 hover:text-black">&times;</button>
+    </header>
+    <main id="galerie-items" class="flex-1 overflow-y-auto p-4 grid grid-cols-2 sm:grid-cols-3 gap-4"></main>
+  </div>
 </div>
 
 <script>
-// SOUND ENGINE
 let audioCtx = null, isMuted = false;
 function initSound() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -191,198 +156,275 @@ function toggleSound() {
   isMuted = !isMuted;
   document.getElementById('sound-btn').innerText = isMuted ? '🔇' : '🔊';
 }
-function playTone(freq, type, duration, gainVal = 0.1) {
-  if (isMuted) return; initSound(); if (!audioCtx) return;
-  const now = audioCtx.currentTime;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.type = type; osc.frequency.setValueAtTime(freq, now);
-  gain.gain.setValueAtTime(gainVal, now);
-  gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-  osc.connect(gain); gain.connect(audioCtx.destination);
-  osc.start(now); osc.stop(now + duration);
-}
-function playChime() { [523, 659, 783, 1046].forEach((f, i) => setTimeout(() => playTone(f, 'sine', 0.6, 0.08), i * 90)); }
-function playBreak() { [220, 180, 140].forEach((f, i) => setTimeout(() => playTone(f, 'sawtooth', 0.3, 0.12), i * 60)); }
 
-// STATE
+const PALETTE = [
+  '#B07D62', '#895737', '#C08552', '#DAB692', '#F4ACB7', 
+  '#E07A5F', '#3D405B', '#81B29A', '#F2CC8F', '#2A9D8F',
+  '#E76F51', '#264653', '#E9C46A', '#6B705C', '#A5A58D', '#9B5DE5'
+];
+
 let points = +(localStorage.getItem('m_pts') || 1000);
-let hearts = 3;
 let currentBook = 'Beginner';
 let currentLevel = 1;
-let currentFilter = 'All';
-let selectedPen = 'fineBrush';
-let selectedColor = '#B07D62';
-let brushSize = 12;
-let brushOpacity = 0.85;
+let selectedColor = PALETTE[0];
+let brushSize = 8;
 let unlocked = JSON.parse(localStorage.getItem('m_unlocked_v3') || '{"Beginner":[1,2],"Intermediate":[1],"Pro":[1]}');
 let gallery = JSON.parse(localStorage.getItem('m_gallery') || '[]');
+let historyStack = [];
 
-// SVG GENERATORS
-function genLotusSvg(sym, seed) {
-  let p = [`<circle cx="500" cy="500" r="450" fill="none" stroke="#2b2725" stroke-width="6"/>`,
-  `<circle cx="500" cy="500" r="435" fill="none" stroke="#2b2725" stroke-width="2.5"/>`];
-  [70, 150, 240, 330, 420].forEach(r => p.push(`<circle cx="500" cy="500" r="${r}" fill="none" stroke="#2b2725" stroke-width="2"/>`));
-  for(let i=0; i<sym; i++){
-    let a1 = (i*2*Math.PI)/sym, a2 = ((i+1)*2*Math.PI)/sym, am = (a1+a2)/2;
-    let x1 = 500+Math.cos(a1)*150, y1 = 500+Math.sin(a1)*150;
-    let x2 = 500+Math.cos(a2)*150, y2 = 500+Math.sin(a2)*150;
-    let tx = 500+Math.cos(am)*240, ty = 500+Math.sin(am)*240;
-    p.push(`<path d="M ${x1.toFixed(1)} ${y1.toFixed(1)} Q ${500+Math.cos(a1)*200} ${500+Math.sin(a1)*200} ${tx.toFixed(1)} ${ty.toFixed(1)} Q ${500+Math.cos(a2)*200} ${500+Math.sin(a2)*200} ${x2.toFixed(1)} ${y2.toFixed(1)}" fill="none" stroke="#2b2725" stroke-width="2.5"/>`);
-  }
-  return `<svg viewBox="0 0 1000 1000" class="w-full h-full">${p.join('')}</svg>`;
+const canvas = document.getElementById('paint-canvas');
+const ctx = canvas.getContext('2d');
+let isDrawing = false;
+
+function renderPalette() {
+  const container = document.getElementById('palette-swatches');
+  container.innerHTML = '';
+  PALETTE.forEach((color, index) => {
+    const btn = document.createElement('button');
+    btn.className = `palette-btn w-7 h-7 rounded-full shrink-0 border border-black/10 shadow-sm transition ${color === selectedColor ? 'active' : ''}`;
+    btn.style.backgroundColor = color;
+    btn.onclick = () => {
+      selectedColor = color;
+      document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    };
+    container.appendChild(btn);
+  });
 }
 
-function genCubeSvg() {
-  let p = [`<circle cx="500" cy="500" r="450" fill="none" stroke="#2b2725" stroke-width="6"/>`,
-  `<circle cx="500" cy="500" r="435" fill="none" stroke="#2b2725" stroke-width="2"/>`];
-  function drawCube(x, y, s) {
-    let h = s * 0.866, w = s * 0.5;
-    p.push(`<polygon points="${x},${y-s} ${x+h},${y-w} ${x},${y} ${x-h},${y-w}" fill="none" stroke="#2b2725" stroke-width="2"/>`);
-    p.push(`<polygon points="${x},${y} ${x-h},${y-w} ${x-h},${y+s-w} ${x},${y+s}" fill="none" stroke="#2b2725" stroke-width="2"/>`);
-    p.push(`<polygon points="${x},${y} ${x+h},${y-w} ${x+h},${y+s-w} ${x},${y+s}" fill="none" stroke="#2b2725" stroke-width="2"/>`);
-  }
-  drawCube(500, 500, 130);
-  for(let i=0; i<6; i++){
-    let a = (i*Math.PI)/3;
-    drawCube(500+Math.cos(a)*220, 500+Math.sin(a)*220, 75);
-  }
-  return `<svg viewBox="0 0 1000 1000" class="w-full h-full">${p.join('')}</svg>`;
-}
-
-function genTableSvg() {
-  let p = [`<circle cx="500" cy="500" r="450" fill="none" stroke="#2b2725" stroke-width="6"/>`,
-  `<circle cx="500" cy="500" r="425" fill="none" stroke="#2b2725" stroke-width="2"/>`,
-  `<rect x="250" y="250" width="500" height="500" fill="none" stroke="#2b2725" stroke-width="4"/>`,
-  `<rect x="250" y="250" width="500" height="500" transform="rotate(45, 500, 500)" fill="none" stroke="#2b2725" stroke-width="3"/>`,
-  `<circle cx="500" cy="500" r="120" fill="none" stroke="#2b2725" stroke-width="3"/>`,
-  `<circle cx="500" cy="500" r="50" fill="none" stroke="#2b2725" stroke-width="2"/>`];
-  for(let i=0; i<8; i++){
-    let a = (i*Math.PI)/4;
-    p.push(`<line x1="500" y1="500" x2="${(500+Math.cos(a)*425).toFixed(1)}" y2="${(500+Math.sin(a)*425).toFixed(1)}" stroke="#2b2725" stroke-width="2"/>`);
-  }
-  return `<svg viewBox="0 0 1000 1000" class="w-full h-full">${p.join('')}</svg>`;
-}
-
-function genCelestialSvg() {
-  let p = [`<circle cx="500" cy="500" r="450" fill="none" stroke="#2b2725" stroke-width="6"/>`,
-  `<circle cx="500" cy="500" r="425" fill="none" stroke="#2b2725" stroke-width="2"/>`,
-  `<circle cx="500" cy="500" r="90" fill="none" stroke="#2b2725" stroke-width="3"/>`,
-  `<path d="M 500 420 A 80 80 0 0 0 500 580 A 55 80 0 0 1 500 420 Z" fill="none" stroke="#2b2725" stroke-width="2.5"/>`];
-  for(let i=0; i<16; i++){
-    let a = (i*2*Math.PI)/16;
-    let x1 = 500+Math.cos(a)*100, y1 = 500+Math.sin(a)*100;
-    let x2 = 500+Math.cos(a)*200, y2 = 500+Math.sin(a)*200;
-    p.push(`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#2b2725" stroke-width="2"/>`);
-  }
-  [260, 340].forEach(r => p.push(`<circle cx="500" cy="500" r="${r}" fill="none" stroke="#2b2725" stroke-width="2" stroke-dasharray="6,6"/>`));
-  return `<svg viewBox="0 0 1000 1000" class="w-full h-full">${p.join('')}</svg>`;
-}
-
-function getTemplate(diff, lvl) {
-  const mod = (lvl - 1) % 4;
-  const cost = lvl === 1 ? 0 : (lvl - 1) * (diff === 'Beginner' ? 120 : diff === 'Intermediate' ? 240 : 400);
-  if (mod === 1) return { cat: 'Cube 3D', title: `Isometric Cube #${lvl}`, sub: '3D Matrix', svg: genCubeSvg(), cost };
-  if (mod === 2) return { cat: 'Sacred Table', title: `Altar Table Mosaic #${lvl}`, sub: 'Sacred Tile Inlay', svg: genTableSvg(), cost };
-  if (mod === 3) return { cat: 'Celestial', title: `Celestial Zodiac Orbit #${lvl}`, sub: 'Sun & Moon Spheres', svg: genCelestialSvg(), cost };
-  return { cat: 'Lotus Flower', title: `Lotus Petals Rosette #${lvl}`, sub: 'Concentric Petals', svg: genLotusSvg(diff==='Beginner'?8:diff==='Intermediate'?12:16, lvl), cost };
-}
-
-// UI NAVIGATION & HELPERS
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.innerText = msg; t.classList.remove('hidden'); t.classList.add('flex');
-  setTimeout(() => { t.classList.add('hidden'); t.classList.remove('flex'); }, 3000);
-}
 function updateBadges() {
   document.getElementById('points-badge').innerText = `⭐ ${points.toLocaleString()} PTS`;
   document.getElementById('book-points-badge').innerText = `⭐ ${points.toLocaleString()}`;
-  document.getElementById('coloring-points-badge').innerText = `⭐ ${points.toLocaleString()}`;
   ['Beginner', 'Intermediate', 'Pro'].forEach(b => {
-    document.getElementById(`unlocked-count-${b}`).innerText = `${(unlocked[b]||[]).length}/20 Unlocked`;
+    const el = document.getElementById(`unlocked-count-${b}`);
+    if (el) el.innerText = `${(unlocked[b]||[]).length}/20 Unlocked`;
   });
   document.getElementById('galerie-count').innerText = gallery.length;
   localStorage.setItem('m_pts', points);
   localStorage.setItem('m_unlocked_v3', JSON.stringify(unlocked));
 }
-function addMaxMoney() {
-  playChime(); points += 10000; updateBadges();
-  showToast('🎉 +10,000 ⭐ Zen Coins Added!');
-}
+
 function showScreen(id) {
   document.querySelectorAll('#screen-home, #screen-levels, #screen-coloring').forEach(s => s.classList.add('hidden'));
   document.getElementById(`screen-${id}`).classList.remove('hidden');
   if(id === 'home') updateBadges();
 }
+
 function openBook(b) {
   currentBook = b;
   document.getElementById('book-title-header').innerText = `${b} Book`;
   renderLevels();
   showScreen('levels');
 }
+
 function renderLevels() {
   const grid = document.getElementById('levels-grid');
   grid.innerHTML = '';
   for(let i=1; i<=20; i++){
-    const t = getTemplate(currentBook, i);
-    if(currentFilter !== 'All' && t.cat !== currentFilter) continue;
     const isUnlocked = (unlocked[currentBook]||[]).includes(i);
+    const cost = i === 1 ? 0 : i * (currentBook === 'Beginner' ? 80 : currentBook === 'Intermediate' ? 150 : 300);
     const card = document.createElement('div');
-    card.className = `p-3 rounded-2xl border flex flex-col justify-between ${isUnlocked ? 'bg-white border-stone-200 cursor-pointer shadow-sm hover:shadow-md' : 'bg-stone-50 border-stone-200 opacity-80'}`;
+    card.className = `p-3 rounded-2xl border flex flex-col justify-between ${isUnlocked ? 'bg-white border-stone-200 cursor-pointer shadow-sm' : 'bg-stone-50 border-stone-200 opacity-80'}`;
     card.innerHTML = `
-      <div class="aspect-square bg-stone-100 rounded-xl mb-2 flex items-center justify-center p-2 relative overflow-hidden">${t.svg}</div>
+      <div class="aspect-square bg-stone-100 rounded-xl mb-2 flex items-center justify-center p-2 text-2xl font-bold text-stone-400">${currentBook[0]}-${i}</div>
       <div>
-        <div class="text-[10px] font-bold uppercase text-stone-400">${t.cat}</div>
-        <div class="text-xs font-bold truncate">${t.title}</div>
+        <div class="text-[10px] font-bold uppercase text-stone-400">${currentBook} Level</div>
+        <div class="text-xs font-bold truncate">Pattern #${i}</div>
       </div>
       <button class="mt-2 w-full py-1.5 rounded-lg text-xs font-bold ${isUnlocked ? 'bg-stone-900 text-white' : 'bg-amber-400 text-stone-950'}">
-        ${isUnlocked ? 'Color Now' : `Unlock ⭐ ${t.cost}`}
+        ${isUnlocked ? 'Color Now' : `Unlock ⭐ ${cost}`}
       </button>`;
     card.onclick = () => {
       if(isUnlocked) startColoring(i);
       else {
-        if(points >= t.cost) {
-          points -= t.cost;
+        if(points >= cost) {
+          points -= cost;
           unlocked[currentBook].push(i);
-          updateBadges(); renderLevels(); playChime();
-        } else showToast('Not enough points!');
+          updateBadges(); renderLevels();
+        } else {
+          showToast('Not enough points! Complete levels to earn points.');
+        }
       }
     };
     grid.appendChild(card);
   }
 }
+
 function startColoring(lvl) {
   currentLevel = lvl;
-  const t = getTemplate(currentBook, lvl);
-  document.getElementById('current-mandala-title').innerText = t.title;
-  document.getElementById('current-mandala-sub').innerText = `${currentBook} - Level ${lvl}`;
-  document.getElementById('svg-overlay').innerHTML = t.svg;
+  document.getElementById('current-mandala-title').innerText = `${currentBook} #${lvl}`;
+  document.getElementById('current-mandala-sub').innerText = `${currentBook} Atelier`;
   showScreen('coloring');
   initCanvas();
 }
+
+function drawMandalaTemplate(diff, lvl) {
+  ctx.save();
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillRect(0, 0, 1000, 1000);
+  ctx.strokeStyle = '#1c1917';
+  ctx.lineWidth = 4;
+  ctx.translate(500, 500);
+
+  let rings = diff === 'Beginner' ? 4 : diff === 'Intermediate' ? 7 : 12;
+  let petals = diff === 'Beginner' ? 8 : diff === 'Intermediate' ? 16 : 32;
+
+  for (let r = 1; r <= rings; r++) {
+    let radius = r * (450 / rings);
+    ctx.beginPath();
+    ctx.arc(0, 0, radius, 0, Math.PI * 2);
+    ctx.stroke();
+
+    if (diff === 'Pro' || (diff === 'Intermediate' && r % 2 === 0)) {
+      ctx.beginPath();
+      ctx.setLineDash([8, 8]);
+      ctx.arc(0, 0, radius - (250 / rings), 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    for (let p = 0; p < petals; p++) {
+      let angle = (p * Math.PI * 2) / petals;
+      ctx.save();
+      ctx.rotate(angle);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(radius, 0);
+      ctx.stroke();
+
+      if (diff === 'Pro') {
+        ctx.beginPath();
+        ctx.arc(radius / 2, 0, radius / 4, 0, Math.PI * 2);
+        ctx.stroke();
+      } else if (diff === 'Intermediate') {
+        ctx.beginPath();
+        ctx.rect(radius / 3, -10, radius / 3, 20);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+  }
+  ctx.restore();
+  saveHistory();
+}
+
 function initCanvas() {
-  const c = document.getElementById('paint-canvas');
-  c.width = 1000; c.height = 1000;
-  const ctx = c.getContext('2d');
-  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0,0,1000,1000);
+  canvas.width = 1000;
+  canvas.height = 1000;
+  historyStack = [];
+  drawMandalaTemplate(currentBook, currentLevel);
 }
-function setFilter(cat) {
-  currentFilter = cat;
-  document.querySelectorAll('.filter-tab').forEach(b => {
-    b.className = `filter-tab px-3 py-1 rounded-full text-xs font-semibold ${b.dataset.cat === cat ? 'bg-stone-900 text-white' : 'bg-stone-200 text-stone-700'}`;
+
+function saveHistory() {
+  if (historyStack.length > 10) historyStack.shift();
+  historyStack.push(ctx.getImageData(0, 0, 1000, 1000));
+}
+
+function undo() {
+  if (historyStack.length > 1) {
+    historyStack.pop();
+    ctx.putImageData(historyStack[historyStack.length - 1], 0, 0);
+  }
+}
+
+function clearCanvas() {
+  drawMandalaTemplate(currentBook, currentLevel);
+}
+
+function getCanvasCoordinates(e) {
+  const rect = canvas.getBoundingClientRect();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  return {
+    x: (clientX - rect.left) * (canvas.width / rect.width),
+    y: (clientY - rect.top) * (canvas.height / rect.height)
+  };
+}
+
+function startDrawing(e) {
+  isDrawing = true;
+  const pos = getCanvasCoordinates(e);
+  ctx.beginPath();
+  ctx.moveTo(pos.x, pos.y);
+  ctx.strokeStyle = selectedColor;
+  ctx.lineWidth = brushSize;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+}
+
+function draw(e) {
+  if (!isDrawing) return;
+  const pos = getCanvasCoordinates(e);
+  ctx.lineTo(pos.x, pos.y);
+  ctx.stroke();
+}
+
+function stopDrawing() {
+  if (isDrawing) {
+    isDrawing = false;
+    saveHistory();
+  }
+}
+
+canvas.addEventListener('mousedown', startDrawing);
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseup', stopDrawing);
+canvas.addEventListener('mouseleave', stopDrawing);
+
+canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDrawing(e); }, { passive: false });
+canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e); }, { passive: false });
+canvas.addEventListener('touchend', (e) => { e.preventDefault(); stopDrawing(); }, { passive: false });
+
+function setPen(pen) {
+  document.querySelectorAll('.pen-btn').forEach(b => {
+    b.classList.remove('bg-white', 'shadow-sm');
+    b.classList.add('text-stone-500');
   });
-  renderLevels();
+  const activeBtn = document.querySelector(`[data-pen="${pen}"]`);
+  if (activeBtn) {
+    activeBtn.classList.add('bg-white', 'shadow-sm');
+    activeBtn.classList.remove('text-stone-500');
+  }
+  if (pen === 'eraser') {
+    selectedColor = '#FFFFFF';
+  } else if (selectedColor === '#FFFFFF') {
+    selectedColor = PALETTE[0];
+  }
 }
+
+function completeMandala() {
+  points += 200;
+  gallery.push(canvas.toDataURL());
+  localStorage.setItem('m_gallery', JSON.stringify(gallery));
+  updateBadges();
+  showToast('🎉 Level Completed! +200 PTS Saved to Gallery.');
+  showScreen('levels');
+}
+
 function toggleGalerie(open) {
-  document.getElementById('modal-galerie').style.display = open ? 'flex' : 'none';
+  const modal = document.getElementById('modal-galerie');
+  modal.style.display = open ? 'flex' : 'none';
+  if (open) {
+    const container = document.getElementById('galerie-items');
+    container.innerHTML = '';
+    gallery.forEach(dataUrl => {
+      const img = document.createElement('img');
+      img.src = dataUrl;
+      img.className = 'w-full aspect-square rounded-xl border border-stone-200 shadow-sm';
+      container.appendChild(img);
+    });
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerText = msg; t.classList.remove('hidden'); t.classList.add('flex');
+  setTimeout(() => { t.classList.add('hidden'); t.classList.remove('flex'); }, 3000);
 }
 
 window.onload = () => {
+  renderPalette();
   updateBadges();
-  // تهيئة الاستجابة لللمس على جميع الأزرار
-  document.querySelectorAll('button').forEach(btn => {
-    btn.addEventListener('touchstart', function() {}, { passive: true });
-  });
 };
 </script>
 </body>
