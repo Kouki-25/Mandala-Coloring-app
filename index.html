@@ -11,8 +11,22 @@
     #stage-container { touch-action: none !important; overflow: hidden; position: relative; }
     #paint-canvas { touch-action: none !important; transform-origin: center center; }
     .palette-btn.active { transform: scale(1.25); outline: 3px solid #1c1917; outline-offset: 2px; }
-    @keyframes scanLine { 0% { top: 0%; } 50% { top: 95%; } 100% { top: 0%; } }
-    .scanner-line { position: absolute; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, rgba(16,185,129,0) 0%, rgba(16,185,129,1) 50%, rgba(16,185,129,0) 100%); box-shadow: 0 0 15px #10b981, 0 0 30px #10b981; animation: scanLine 1.8s ease-in-out infinite; }
+    
+    /* Green Scan Animation */
+    @keyframes scanLineGreen {
+      0% { top: 0%; opacity: 0.8; }
+      50% { top: 96%; opacity: 1; }
+      100% { top: 0%; opacity: 0.8; }
+    }
+    .scanner-line-green {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: #22c55e;
+      box-shadow: 0 0 15px #22c55e, 0 0 30px #16a34a, 0 0 45px #4ade80;
+      animation: scanLineGreen 1.6s ease-in-out infinite;
+    }
   </style>
 </head>
 <body class="bg-stone-100 text-stone-900 h-screen h-[100dvh] flex flex-col overflow-hidden">
@@ -106,10 +120,12 @@
   <main id="stage-container" class="flex-1 relative flex items-center justify-center p-2 overflow-hidden bg-stone-200/60">
     <div id="stage-wrapper" class="relative aspect-square max-w-[min(100%,calc(100dvh-175px))] max-h-[min(100%,calc(100dvh-175px))] w-full h-full rounded-2xl bg-white shadow-xl overflow-hidden flex items-center justify-center">
       <canvas id="paint-canvas" class="w-full h-full cursor-crosshair"></canvas>
-      <div id="scan-overlay" class="absolute inset-0 bg-stone-950/40 backdrop-blur-[2px] hidden flex-col items-center justify-center z-30">
-        <div class="scanner-line"></div>
-        <div class="bg-stone-900/90 text-emerald-400 px-5 py-2.5 rounded-full font-bold text-xs shadow-2xl border border-emerald-400/40 animate-pulse flex items-center gap-2">
-          <span>🔍</span> <span>AI SCANNING ACCURACY...</span>
+      
+      <!-- Green Scanning Overlay -->
+      <div id="scan-overlay" class="absolute inset-0 bg-emerald-950/20 backdrop-blur-[1px] hidden flex-col items-center justify-center z-30">
+        <div class="scanner-line-green"></div>
+        <div class="bg-stone-900/90 text-emerald-400 px-5 py-2.5 rounded-full font-bold text-xs shadow-2xl border border-emerald-500/50 animate-pulse flex items-center gap-2">
+          <span class="text-emerald-400">❇️</span> <span>SCANNING CANVAS ACCURACY...</span>
         </div>
       </div>
     </div>
@@ -127,7 +143,7 @@
         <label class="flex items-center gap-1 font-semibold text-[11px]">Size <input id="brush-size" type="range" min="2" max="30" value="6" class="w-16 accent-stone-900" oninput="brushSize=+this.value"></label>
       </div>
     </div>
-    <div id="palette-swatches" class="flex items-center gap-3 overflow-x-auto py-1 px-1"></div>
+    <div id="palette-swatches" class="flex items-center gap-2.5 overflow-x-auto py-1 px-1"></div>
   </footer>
 </div>
 
@@ -188,7 +204,6 @@ function playTone(freq, type, duration) {
   osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + duration);
 }
 
-// Sound Effects including Coins Sound
 function playCoinSound() {
   if (isMuted) return; initSound();
   const notes = [987.77, 1318.51];
@@ -199,9 +214,13 @@ function playCoinSound() {
 function playBreakSound() { [220, 180, 140].forEach((f, i) => setTimeout(() => playTone(f, 'sawtooth', 0.3), i * 80)); }
 function playReviveSound() { [350, 450, 600, 800, 1050].forEach((f, i) => setTimeout(() => playTone(f, 'triangle', 0.25), i * 70)); }
 
-const PALETTE = ['#B07D62', '#895737', '#C08552', '#DAB692', '#F4ACB7', '#E07A5F', '#3D405B', '#81B29A', '#F2CC8F', '#2A9D8F', '#E76F51', '#264653', '#E9C46A', '#6B705C', '#A5A58D', '#9B5DE5'];
+// EXPANDED PALETTE (Includes Light Pastels & Bright Vibrant Colors)
+const PALETTE = [
+  '#FFB7B2', '#FFDAC1', '#E2F0CB', '#B5EAD7', '#C7CEEA', '#F3C4FB', '#FF9AA2', '#FFFFD1',
+  '#F4A261', '#E76F51', '#2A9D8F', '#264653', '#E9C46A', '#9B5DE5', '#F15BB5', '#00BBF9',
+  '#00F5D4', '#70E000', '#3A0CA3', '#4CC9F0', '#B07D62', '#895737', '#6B705C', '#1C1917'
+];
 
-// ADVANCED PROCEDURAL GENERATOR (Generates 20 Unique Artworks per Book)
 function generateUniqueSvg(book, lvl) {
   let innerElements = '';
   const cX = 250, cY = 250;
@@ -235,7 +254,6 @@ function generateUniqueSvg(book, lvl) {
     innerElements += `<circle cx="${cX}" cy="${cY}" r="180" fill="none" stroke="black" stroke-width="6"/>`;
     innerElements += `<circle cx="${cX}" cy="${cY}" r="90" fill="none" stroke="black" stroke-width="5"/>`;
   } else {
-    // Pro Master
     const folds = 8 + (lvl % 5) * 4;
     for (let i = 0; i < folds; i++) {
       const angle = (i * 360) / folds;
@@ -504,11 +522,10 @@ function evaluateMandalaResult() {
     msg.innerText = hearts === 0 ? 'All hearts broken! Revive required.' : 'You colored over black lines! A heart broke.';
     pts.innerText = '0 PTS';
   } else {
-    // Dynamic Points Allocation
     const earnedPts = currentBook === 'Beginner' ? 100 : currentBook === 'Intermediate' ? 200 : 400;
     points += earnedPts;
     
-    playCoinSound(); // Trigger Coins Ringing Sound
+    playCoinSound();
 
     gallery.push(canvas.toDataURL());
     localStorage.setItem('m_gallery_v10', JSON.stringify(gallery));
