@@ -137,7 +137,9 @@
         <button onclick="setPen('fineBrush')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white shadow-sm" data-pen="fineBrush">🖌️ Brush</button>
         <button onclick="setPen('marker')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="marker">🖍️ Marker</button>
         <button onclick="setPen('pencil')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="pencil">✏️ Pencil</button>
-        <button onclick="setPen('eraser')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="eraser">🧽 Eraser</button>
+        <!-- Undo & Redo Arrows -->
+        <button onclick="undoAction()" class="px-2.5 py-1 rounded-lg text-xs font-bold text-stone-700 bg-stone-200 hover:bg-stone-300 transition active:scale-95">↩️ Undo</button>
+        <button onclick="redoAction()" class="px-2.5 py-1 rounded-lg text-xs font-bold text-stone-700 bg-stone-200 hover:bg-stone-300 transition active:scale-95">↪️ Redo</button>
       </div>
       <div class="flex items-center gap-3 shrink-0 text-xs text-stone-600">
         <label class="flex items-center gap-1 font-semibold text-[11px]">Size <input id="brush-size" type="range" min="2" max="30" value="6" class="w-16 accent-stone-900" oninput="brushSize=+this.value"></label>
@@ -286,6 +288,33 @@ const ctx = canvas.getContext('2d');
 let maskCanvas = document.createElement('canvas');
 let maskCtx = maskCanvas.getContext('2d');
 
+// Undo / Redo History Buffers
+let undoStack = [];
+let redoStack = [];
+const MAX_HISTORY = 15;
+
+function saveState() {
+  if (undoStack.length >= MAX_HISTORY) undoStack.shift();
+  undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+  redoStack = [];
+}
+
+function undoAction() {
+  if (undoStack.length > 0) {
+    redoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+    const previousState = undoStack.pop();
+    ctx.putImageData(previousState, 0, 0);
+  }
+}
+
+function redoAction() {
+  if (redoStack.length > 0) {
+    undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+    const nextState = redoStack.pop();
+    ctx.putImageData(nextState, 0, 0);
+  }
+}
+
 let isDrawing = false;
 let scale = 1, panX = 0, panY = 0;
 let initialPinchDist = null, initialScale = 1;
@@ -414,6 +443,7 @@ function startColoring(lvl) {
 function initCanvas() {
   canvas.width = 1000; canvas.height = 1000;
   maskCanvas.width = 1000; maskCanvas.height = 1000;
+  undoStack = []; redoStack = [];
   const dataUrl = generateUniqueSvg(currentBook, currentLevel);
   loadSVGToCanvas(dataUrl, ctx);
   loadSVGToCanvas(dataUrl, maskCtx);
@@ -421,6 +451,7 @@ function initCanvas() {
 }
 
 function clearCanvas() {
+  saveState();
   const dataUrl = generateUniqueSvg(currentBook, currentLevel);
   loadSVGToCanvas(dataUrl, ctx);
 }
@@ -437,6 +468,7 @@ function getCanvasCoordinates(e) {
 
 function startDrawing(e) {
   if(e.touches && e.touches.length > 1) return;
+  saveState();
   isDrawing = true;
   const pos = getCanvasCoordinates(e);
   ctx.beginPath(); ctx.moveTo(pos.x, pos.y);
@@ -487,7 +519,6 @@ function setPen(pen) {
   });
   const activeBtn = document.querySelector(`[data-pen="${pen}"]`);
   if (activeBtn) { activeBtn.classList.add('bg-white', 'shadow-sm'); activeBtn.classList.remove('text-stone-500'); }
-  selectedColor = pen === 'eraser' ? '#FFFFFF' : PALETTE[0];
 }
 
 function startScanProcess() {
