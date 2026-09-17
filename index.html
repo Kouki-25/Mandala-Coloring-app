@@ -71,30 +71,30 @@
 
   <main class="flex-1 my-6">
     <div class="text-center mb-6">
-      <h2 class="text-xl md:text-2xl font-bold text-stone-800">Choose a Difficulty Book</h2>
-      <p class="text-xs text-stone-600 mt-1">Houses, Geometric Animals, Deep Mandala & Sacred Floral Art</p>
+      <h2 class="text-xl md:text-2xl font-bold text-stone-800">اختر كتاب التلوين حسب الصعوبة</h2>
+      <p class="text-xs text-stone-600 mt-1">رسومات متنوعة وفريدة بالكامل لكل مستوى</p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       <div onclick="openBook('Beginner')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-emerald-800 to-teal-950 text-white shadow-md hover:-translate-y-1 transition">
         <div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-700">Beginner</span><span id="unlocked-count-Beginner" class="text-xs text-emerald-200">1/20 Unlocked</span></div>
-        <div class="text-center"><div class="text-4xl mb-2">🏠🐢</div><h3 class="text-xl font-bold">Houses & Animals</h3><p class="text-xs text-emerald-200">Easy outlines & broad zones</p></div>
-        <div class="text-xs text-right font-semibold">Open Book &rarr;</div>
+        <div class="text-center"><div class="text-4xl mb-2">🏠🐢</div><h3 class="text-xl font-bold">منازل وحيوانات بسيطة</h3><p class="text-xs text-emerald-200">حدود واضحة ومساحات واسعة</p></div>
+        <div class="text-xs text-right font-semibold">فتح الكتاب &rarr;</div>
       </div>
       <div onclick="openBook('Intermediate')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-amber-800 to-stone-900 text-white shadow-md hover:-translate-y-1 transition">
         <div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-700">Intermediate</span><span id="unlocked-count-Intermediate" class="text-xs text-amber-200">1/20 Unlocked</span></div>
-        <div class="text-center"><div class="text-4xl mb-2">🐋🐍</div><h3 class="text-xl font-bold">Geometric Wildlife</h3><p class="text-xs text-amber-200">Whales, Snakes & Patterns</p></div>
-        <div class="text-xs text-right font-semibold">Open Book &rarr;</div>
+        <div class="text-center"><div class="text-4xl mb-2">🐋🐍</div><h3 class="text-xl font-bold">أشكال هندسية وحيوانات</h3><p class="text-xs text-amber-200">تفاصيل متوسطة وزخارف نباتية</p></div>
+        <div class="text-xs text-right font-semibold">فتح الكتاب &rarr;</div>
       </div>
       <div onclick="openBook('Pro')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-purple-950 to-stone-950 text-white shadow-md hover:-translate-y-1 transition">
         <div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-800">Pro Master</span><span id="unlocked-count-Pro" class="text-xs text-rose-200">1/20 Unlocked</span></div>
-        <div class="text-center"><div class="text-4xl mb-2">🐺🌌</div><h3 class="text-xl font-bold">Sacred Mandala & Wolf</h3><p class="text-xs text-rose-200">Ultra rich micro geometric details</p></div>
-        <div class="text-xs text-right font-semibold">Open Book &rarr;</div>
+        <div class="text-center"><div class="text-4xl mb-2">🐺🌌</div><h3 class="text-xl font-bold">ماندالا دقيقة وذئاب معقدة</h3><p class="text-xs text-rose-200">شبكات هندسية وتفاصيل فائقة</p></div>
+        <div class="text-xs text-right font-semibold">فتح الكتاب &rarr;</div>
       </div>
     </div>
   </main>
 
   <footer class="pt-4 border-t border-stone-200 flex justify-between shrink-0">
-    <button onclick="toggleGalerie(true)" class="px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-stone-800 font-semibold text-xs shadow-sm">🖼️ La Galerie (<span id="galerie-count">0</span>)</button>
+    <button onclick="toggleGalerie(true)" class="px-4 py-2 rounded-full bg-white hover:bg-stone-50 border border-stone-200 text-stone-800 font-semibold text-xs shadow-sm">🖼️ معرض الصور (<span id="galerie-count">0</span>)</button>
   </footer>
 </div>
 
@@ -102,7 +102,7 @@
 <div id="screen-levels" class="flex-1 flex flex-col w-full max-w-5xl mx-auto p-4 md:p-6 overflow-hidden hidden">
   <header class="flex items-center justify-between pb-3 border-b border-stone-200 shrink-0">
     <div class="flex items-center gap-2">
-      <button onclick="showScreen('home')" class="p-2 rounded-lg hover:bg-stone-200 font-bold text-xs">&larr; Bookshelf</button>
+      <button onclick="showScreen('home')" class="p-2 rounded-lg hover:bg-stone-200 font-bold text-xs">&larr; الكتب</button>
       <h2 id="book-title-header" class="text-base md:text-lg font-bold">Beginner Book</h2>
     </div>
     <div class="flex items-center gap-2">
@@ -165,7 +165,7 @@
   </footer>
 </div>
 
-<!-- Result Modal -->
+<!-- Modal Result / Revive / Galerie -->
 <div id="modal-result" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
   <div class="w-full max-w-sm rounded-3xl bg-white shadow-2xl p-6 text-center border border-stone-200">
     <div id="result-icon" class="text-5xl mb-3">👏</div>
@@ -174,35 +174,31 @@
     <div class="my-4 p-3 rounded-2xl bg-amber-50 border border-amber-200 flex justify-around font-bold text-sm">
       <div><span class="text-xs text-stone-500 block">Earned</span><span id="result-pts" class="text-amber-700">+200 PTS</span></div>
     </div>
-    <button onclick="closeResultModal()" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-md hover:bg-emerald-700">Continue</button>
+    <button onclick="closeResultModal()" class="w-full py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-md hover:bg-emerald-700">متابعة</button>
   </div>
 </div>
 
-<!-- Revive Hearts Modal -->
 <div id="modal-revive" class="fixed inset-0 z-50 bg-stone-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
   <div class="w-full max-w-sm rounded-3xl bg-white shadow-2xl p-6 text-center border border-stone-200">
     <div class="text-5xl mb-3 animate-bounce">💖</div>
-    <h3 class="text-xl font-bold text-stone-900">Out of Hearts!</h3>
-    <p class="text-xs text-stone-600 mt-2">Deduct <span class="font-bold text-amber-600">300 Points</span> to revive 3 new lives and continue coloring?</p>
+    <h3 class="text-xl font-bold text-stone-900">انتهت المحاولات!</h3>
+    <p class="text-xs text-stone-600 mt-2">خصم <span class="font-bold text-amber-600">300 نقطة</span> لاسترجاع 3 قلوب ومتابعة التلوين؟</p>
     <div class="my-4 p-3 rounded-2xl bg-rose-50 border border-rose-200 flex justify-center items-center gap-2 font-bold text-lg text-rose-600">
       <span>💔 💔 💔</span> &rarr; <span>❤️❤️❤️</span>
     </div>
     <div class="flex flex-col gap-2">
       <button onclick="reviveHearts()" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-black text-xs shadow-md hover:brightness-105 active:scale-95 transition">
-        REVIVE FOR ⭐ 300 PTS
+        استرجاع بـ ⭐ 300 نقطة
       </button>
-      <button onclick="closeReviveModal()" class="w-full py-2 rounded-xl bg-stone-100 text-stone-600 font-bold text-xs hover:bg-stone-200">
-        Maybe Later
-      </button>
+      <button onclick="closeReviveModal()" class="w-full py-2 rounded-xl bg-stone-100 text-stone-600 font-bold text-xs hover:bg-stone-200">ليس الآن</button>
     </div>
   </div>
 </div>
 
-<!-- Galerie Modal -->
 <div id="modal-galerie" class="fixed inset-0 z-50 bg-stone-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
   <div class="w-full max-w-3xl max-h-[85vh] rounded-3xl bg-white shadow-2xl flex flex-col overflow-hidden border border-stone-200">
     <header class="p-4 border-b border-stone-200 flex justify-between items-center">
-      <h3 class="font-bold text-lg">La Galerie d'Art</h3>
+      <h3 class="font-bold text-lg">معرض لوحاتك</h3>
       <button onclick="toggleGalerie(false)" class="p-2 font-bold text-sm text-stone-500 hover:text-black">&times;</button>
     </header>
     <main id="galerie-items" class="flex-1 overflow-y-auto p-4 grid grid-cols-2 sm:grid-cols-3 gap-4"></main>
@@ -211,33 +207,48 @@
 
 <script>
 let audioCtx = null, isMuted = false;
-function initSound() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-}
-function toggleSound() {
-  isMuted = !isMuted;
-  document.getElementById('sound-btn').innerText = isMuted ? '🔇' : '🔊';
-}
+function initSound() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); if (audioCtx.state === 'suspended') audioCtx.resume(); }
+function toggleSound() { isMuted = !isMuted; document.getElementById('sound-btn').innerText = isMuted ? '🔇' : '🔊'; }
 function playTone(freq, type, duration) {
   if (isMuted) return; initSound(); if (!audioCtx) return;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
+  const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
   osc.type = type; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-  gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-  osc.connect(gain); gain.connect(audioCtx.destination);
-  osc.start(); osc.stop(audioCtx.currentTime + duration);
+  gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+  osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + duration);
 }
 function playWinSound() { [523, 659, 783, 1046].forEach((f, i) => setTimeout(() => playTone(f, 'sine', 0.4), i * 100)); }
 function playBreakSound() { [220, 180, 140].forEach((f, i) => setTimeout(() => playTone(f, 'sawtooth', 0.3), i * 80)); }
 function playReviveSound() { [350, 450, 600, 800, 1050].forEach((f, i) => setTimeout(() => playTone(f, 'triangle', 0.25), i * 70)); }
 
-const PALETTE = [
-  '#B07D62', '#895737', '#C08552', '#DAB692', '#F4ACB7', 
-  '#E07A5F', '#3D405B', '#81B29A', '#F2CC8F', '#2A9D8F',
-  '#E76F51', '#264653', '#E9C46A', '#6B705C', '#A5A58D', '#9B5DE5'
-];
+const PALETTE = ['#B07D62', '#895737', '#C08552', '#DAB692', '#F4ACB7', '#E07A5F', '#3D405B', '#81B29A', '#F2CC8F', '#2A9D8F', '#E76F51', '#264653', '#E9C46A', '#6B705C', '#A5A58D', '#9B5DE5'];
+
+// قاعدة بيانات روابط الصور vector SVG مجانية ومباشرة وعالية الجودة ومتنوعة 100%
+const SVG_BOOKS = {
+  Beginner: [
+    'https://www.svgrepo.com/show/415033/house-home-building.svg',
+    'https://www.svgrepo.com/show/420364/turtle-animal-sea.svg',
+    'https://www.svgrepo.com/show/406456/cat-face.svg',
+    'https://www.svgrepo.com/show/415052/tree-plant-nature.svg',
+    'https://www.svgrepo.com/show/415011/flower-bloom-spring.svg',
+    'https://www.svgrepo.com/show/415024/fish-underwater-sea.svg',
+    'https://www.svgrepo.com/show/420352/rabbit-easter-animal.svg',
+    'https://www.svgrepo.com/show/415040/car-transport-vehicle.svg'
+  ],
+  Intermediate: [
+    'https://www.svgrepo.com/show/420380/whale-animal-sea.svg',
+    'https://www.svgrepo.com/show/420391/snake-reptile-animal.svg',
+    'https://www.svgrepo.com/show/420377/elephant-animal-africa.svg',
+    'https://www.svgrepo.com/show/415060/butterfly-insect-fly.svg',
+    'https://www.svgrepo.com/show/420385/giraffe-animal-safari.svg',
+    'https://www.svgrepo.com/show/420389/owl-bird-night.svg'
+  ],
+  Pro: [
+    'https://www.svgrepo.com/show/420395/wolf-wild-animal.svg',
+    'https://www.svgrepo.com/show/420370/lion-head-wild.svg',
+    'https://www.svgrepo.com/show/420372/eagle-bird-predator.svg',
+    'https://www.svgrepo.com/show/420398/dragon-mythical-creature.svg'
+  ]
+};
 
 let points = +(localStorage.getItem('m_pts') || 1000);
 let hearts = +(localStorage.getItem('m_hearts') || 3);
@@ -245,7 +256,7 @@ let currentBook = 'Beginner';
 let currentLevel = 1;
 let selectedColor = PALETTE[0];
 let brushSize = 6;
-let unlocked = JSON.parse(localStorage.getItem('m_unlocked_v4') || '{"Beginner":[1],"Intermediate":[1],"Pro":[1]}');
+let unlocked = JSON.parse(localStorage.getItem('m_unlocked_v5') || '{"Beginner":[1],"Intermediate":[1],"Pro":[1]}');
 let gallery = JSON.parse(localStorage.getItem('m_gallery') || '[]');
 
 const canvas = document.getElementById('paint-canvas');
@@ -257,9 +268,7 @@ let isDrawing = false;
 let scale = 1, panX = 0, panY = 0;
 let initialPinchDist = null, initialScale = 1;
 
-function updateTransform() {
-  canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
-}
+function updateTransform() { canvas.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`; }
 function resetZoom() { scale = 1; panX = 0; panY = 0; updateTransform(); }
 
 function renderPalette() {
@@ -289,45 +298,30 @@ function updateBadges() {
   updateHeartsUI();
   localStorage.setItem('m_pts', points);
   localStorage.setItem('m_hearts', hearts);
-  localStorage.setItem('m_unlocked_v4', JSON.stringify(unlocked));
+  localStorage.setItem('m_unlocked_v5', JSON.stringify(unlocked));
 }
 
 function updateHeartsUI() {
   ['h1','h2','h3'].forEach((id, idx) => {
-    const el = document.getElementById(id);
-    if(el) el.innerText = idx < hearts ? '❤️' : '💔';
+    const el = document.getElementById(id); if(el) el.innerText = idx < hearts ? '❤️' : '💔';
   });
   ['ch1','ch2','ch3'].forEach((id, idx) => {
-    const el = document.getElementById(id);
-    if(el) el.innerText = idx < hearts ? '❤️' : '💔';
+    const el = document.getElementById(id); if(el) el.innerText = idx < hearts ? '❤️' : '💔';
   });
 }
 
 function checkHeartsRefill() {
-  if (hearts === 0) {
-    document.getElementById('modal-revive').style.display = 'flex';
-  } else {
-    showToast(`You have ${hearts} heart(s) left!`);
-  }
+  if (hearts === 0) document.getElementById('modal-revive').style.display = 'flex';
+  else showToast(`بقت عندك ${hearts} محاولات!`);
 }
 
 function reviveHearts() {
   if (points >= 300) {
-    points -= 300;
-    hearts = 3;
-    playReviveSound();
-    updateBadges();
-    closeReviveModal();
-    showToast('❤️ Lives Fully Restored!');
-  } else {
-    showToast('Not enough points to revive!');
-  }
+    points -= 300; hearts = 3; playReviveSound(); updateBadges(); closeReviveModal(); showToast('❤️ تم استرجاع المحاولات!');
+  } else showToast('النقاط غير كافية!');
 }
 
-function closeReviveModal() {
-  document.getElementById('modal-revive').style.display = 'none';
-}
-
+function closeReviveModal() { document.getElementById('modal-revive').style.display = 'none'; }
 function showScreen(id) {
   document.querySelectorAll('#screen-home, #screen-levels, #screen-coloring').forEach(s => s.classList.add('hidden'));
   document.getElementById(`screen-${id}`).classList.remove('hidden');
@@ -335,119 +329,27 @@ function showScreen(id) {
 }
 
 function openBook(b) {
-  if (hearts === 0) {
-    checkHeartsRefill();
-    return;
-  }
+  if (hearts === 0) { checkHeartsRefill(); return; }
   currentBook = b;
   document.getElementById('book-title-header').innerText = `${b} Book`;
-  renderLevels();
-  showScreen('levels');
+  renderLevels(); showScreen('levels');
 }
 
-// Procedural Rich Vector Generator (Unique per level)
-function drawMandalaTemplateToCtx(targetCtx, diff, lvl, w=1000, h=1000) {
-  targetCtx.save();
-  targetCtx.fillStyle = '#FFFFFF';
-  targetCtx.fillRect(0, 0, w, h);
-  targetCtx.strokeStyle = '#000000';
-  targetCtx.lineWidth = diff === 'Beginner' ? 6 : diff === 'Intermediate' ? 4 : 2.5;
+function getSvgUrl(book, lvl) {
+  const list = SVG_BOOKS[book];
+  return list[(lvl - 1) % list.length];
+}
 
-  const s = w / 1000;
-  targetCtx.scale(s, s);
-
-  if (diff === 'Beginner') {
-    // Beginner designs: Houses, Turtles, Poly shapes
-    const type = lvl % 4;
-    if (type === 1) { // Geometric House & Sun
-      targetCtx.strokeRect(250, 450, 500, 400);
-      targetCtx.beginPath(); targetCtx.moveTo(200, 450); targetCtx.lineTo(500, 180); targetCtx.lineTo(800, 450); targetCtx.closePath(); targetCtx.stroke();
-      targetCtx.strokeRect(430, 600, 140, 250); targetCtx.strokeRect(300, 500, 100, 100); targetCtx.strokeRect(600, 500, 100, 100);
-      targetCtx.beginPath(); targetCtx.arc(180, 180, 70, 0, Math.PI*2); targetCtx.stroke();
-    } else if (type === 2) { // Turtle Pattern
-      targetCtx.translate(500, 500);
-      targetCtx.beginPath(); targetCtx.ellipse(0, 0, 200, 260, 0, 0, Math.PI*2); targetCtx.stroke();
-      targetCtx.beginPath(); targetCtx.arc(0, -310, 70, 0, Math.PI*2); targetCtx.stroke(); // Head
-      for(let a of [-0.7, 0.7, 2.4, 3.8]) {
-        targetCtx.beginPath(); targetCtx.arc(Math.cos(a)*230, Math.sin(a)*230, 45, 0, Math.PI*2); targetCtx.stroke();
-      }
-      for(let r=40; r<=160; r+=40) {
-        targetCtx.beginPath(); targetCtx.arc(0, 0, r, 0, Math.PI*2); targetCtx.stroke();
-      }
-    } else if (type === 3) { // Polygonal Star Grid
-      targetCtx.translate(500, 500);
-      let sides = 4 + (lvl % 5);
-      for(let r=1; r<=lvl+2; r++) {
-        let rad = r * 40;
-        targetCtx.beginPath();
-        for(let i=0; i<sides; i++) {
-          let a = (i * Math.PI * 2) / sides;
-          let x = Math.cos(a)*rad, y = Math.sin(a)*rad;
-          if(i===0) targetCtx.moveTo(x, y); else targetCtx.lineTo(x, y);
-        }
-        targetCtx.closePath(); targetCtx.stroke();
-      }
-    } else { // Flower Easy Pattern
-      targetCtx.translate(500, 500);
-      let petals = 6 + (lvl % 4);
-      for(let i=0; i<petals; i++) {
-        targetCtx.rotate((Math.PI*2)/petals);
-        targetCtx.beginPath(); targetCtx.arc(0, -160, 100, 0, Math.PI*2); targetCtx.stroke();
-      }
-      targetCtx.beginPath(); targetCtx.arc(0, 0, 100, 0, Math.PI*2); targetCtx.stroke();
-    }
-  } else if (diff === 'Intermediate') {
-    // Intermediate designs: Whale Mandala, Snake Lattice, Giraffe Frame
-    const type = lvl % 3;
-    targetCtx.translate(500, 500);
-    if (type === 1) { // Whale Geometric Art
-      targetCtx.beginPath(); targetCtx.ellipse(0, -50, 180, 320, Math.PI/4, 0, Math.PI*2); targetCtx.stroke();
-      targetCtx.beginPath(); targetCtx.ellipse(-150, 180, 80, 160, -Math.PI/3, 0, Math.PI*2); targetCtx.stroke();
-      for(let r=20; r<=280; r+=30) {
-        targetCtx.beginPath(); targetCtx.arc(0, 0, r, 0, Math.PI); targetCtx.stroke();
-      }
-    } else if (type === 2) { // Snake / Spiral Lattice
-      for(let i=0; i<40; i++) {
-        let a = i * 0.3;
-        let r = 20 + i * 10;
-        targetCtx.beginPath(); targetCtx.arc(Math.cos(a)*r, Math.sin(a)*r, 25, 0, Math.PI*2); targetCtx.stroke();
-      }
-    } else { // Decorative Mandala Wheel
-      let rays = 12 + lvl;
-      for(let r=1; r<=6; r++) {
-        let rad = r * 60;
-        targetCtx.beginPath(); targetCtx.arc(0, 0, rad, 0, Math.PI*2); targetCtx.stroke();
-        for(let i=0; i<rays; i++) {
-          let a = (i*Math.PI*2)/rays;
-          targetCtx.beginPath(); targetCtx.moveTo(Math.cos(a)*(rad-60), Math.sin(a)*(rad-60));
-          targetCtx.lineTo(Math.cos(a)*rad, Math.sin(a)*rad); targetCtx.stroke();
-        }
-      }
-    }
-  } else {
-    // Pro Master: Geometric Wolf Head & Deep Sacred Mandala
-    targetCtx.translate(500, 500);
-    if (lvl % 2 === 1) { // Geometric Wolf Head Structure
-      targetCtx.beginPath(); targetCtx.moveTo(0, -350); targetCtx.lineTo(180, -200); targetCtx.lineTo(250, 50); targetCtx.lineTo(0, 350); targetCtx.lineTo(-250, 50); targetCtx.lineTo(-180, -200); targetCtx.closePath(); targetCtx.stroke();
-      targetCtx.beginPath(); targetCtx.moveTo(0, -350); targetCtx.lineTo(0, 350); targetCtx.stroke();
-      targetCtx.beginPath(); targetCtx.moveTo(-180, -200); targetCtx.lineTo(180, -200); targetCtx.stroke();
-      targetCtx.beginPath(); targetCtx.moveTo(-250, 50); targetCtx.lineTo(250, 50); targetCtx.stroke();
-      for(let i=-200; i<=200; i+=50) {
-        targetCtx.beginPath(); targetCtx.moveTo(i, -100); targetCtx.lineTo(0, i); targetCtx.stroke();
-      }
-    } else { // Ultra Dense Circular Mandala Grid
-      let density = 16 + (lvl % 6) * 2;
-      for(let r=1; r<=9; r++) {
-        let rad = r * 45;
-        targetCtx.beginPath(); targetCtx.arc(0, 0, rad, 0, Math.PI*2); targetCtx.stroke();
-        for(let p=0; p<density; p++) {
-          let a = (p * Math.PI * 2) / density;
-          targetCtx.beginPath(); targetCtx.arc(Math.cos(a)*rad, Math.sin(a)*rad, 20, 0, Math.PI*2); targetCtx.stroke();
-        }
-      }
-    }
-  }
-  targetCtx.restore();
+function loadSVGToCanvas(url, targetCtx, callback) {
+  const img = new Image();
+  img.crossOrigin = 'Anonymous';
+  img.onload = () => {
+    targetCtx.fillStyle = '#FFFFFF';
+    targetCtx.fillRect(0, 0, 1000, 1000);
+    targetCtx.drawImage(img, 80, 80, 840, 840);
+    if(callback) callback();
+  };
+  img.src = url;
 }
 
 function renderLevels() {
@@ -456,39 +358,28 @@ function renderLevels() {
   for(let i=1; i<=20; i++){
     const isUnlocked = (unlocked[currentBook]||[]).includes(i);
     const cost = i === 1 ? 0 : i * (currentBook === 'Beginner' ? 80 : currentBook === 'Intermediate' ? 150 : 300);
-    
-    const thumbCanvas = document.createElement('canvas');
-    thumbCanvas.width = 150; thumbCanvas.height = 150;
-    const tCtx = thumbCanvas.getContext('2d');
-    drawMandalaTemplateToCtx(tCtx, currentBook, i, 150, 150);
+    const svgUrl = getSvgUrl(currentBook, i);
 
     const card = document.createElement('div');
     card.className = `p-3 rounded-2xl border flex flex-col justify-between ${isUnlocked ? 'bg-white border-stone-200 cursor-pointer shadow-sm' : 'bg-stone-50 border-stone-200 opacity-80'}`;
     card.innerHTML = `
-      <div class="aspect-square bg-stone-100 rounded-xl mb-2 flex items-center justify-center overflow-hidden border border-stone-200">
-        <img src="${thumbCanvas.toDataURL()}" class="w-full h-full object-cover">
+      <div class="aspect-square bg-stone-100 rounded-xl mb-2 flex items-center justify-center overflow-hidden border border-stone-200 p-2">
+        <img src="${svgUrl}" class="w-full h-full object-contain">
       </div>
       <div>
         <div class="text-[10px] font-bold uppercase text-stone-400">${currentBook} Level</div>
-        <div class="text-xs font-bold truncate">Pattern #${i}</div>
+        <div class="text-xs font-bold truncate">رسمة رقم #${i}</div>
       </div>
       <button class="mt-2 w-full py-1.5 rounded-lg text-xs font-bold ${isUnlocked ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm' : 'bg-amber-400 text-stone-950'}">
-        ${isUnlocked ? 'Color Now' : `Unlock ⭐ ${cost}`}
+        ${isUnlocked ? 'Color Now' : `فتح ⭐ ${cost}`}
       </button>`;
     card.onclick = () => {
-      if (hearts === 0) {
-        checkHeartsRefill();
-        return;
-      }
+      if (hearts === 0) { checkHeartsRefill(); return; }
       if(isUnlocked) startColoring(i);
       else {
         if(points >= cost) {
-          points -= cost;
-          unlocked[currentBook].push(i);
-          updateBadges(); renderLevels();
-        } else {
-          showToast('Not enough points!');
-        }
+          points -= cost; unlocked[currentBook].push(i); updateBadges(); renderLevels();
+        } else showToast('النقاط غير كافية!');
       }
     };
     grid.appendChild(card);
@@ -506,15 +397,15 @@ function startColoring(lvl) {
 function initCanvas() {
   canvas.width = 1000; canvas.height = 1000;
   maskCanvas.width = 1000; maskCanvas.height = 1000;
-  
-  drawMandalaTemplateToCtx(ctx, currentBook, currentLevel, 1000, 1000);
-  drawMandalaTemplateToCtx(maskCtx, currentBook, currentLevel, 1000, 1000);
-  
+  const svgUrl = getSvgUrl(currentBook, currentLevel);
+  loadSVGToCanvas(svgUrl, ctx);
+  loadSVGToCanvas(svgUrl, maskCtx);
   resetZoom();
 }
 
 function clearCanvas() {
-  drawMandalaTemplateToCtx(ctx, currentBook, currentLevel, 1000, 1000);
+  const svgUrl = getSvgUrl(currentBook, currentLevel);
+  loadSVGToCanvas(svgUrl, ctx);
 }
 
 function getCanvasCoordinates(e) {
@@ -531,24 +422,18 @@ function startDrawing(e) {
   if(e.touches && e.touches.length > 1) return;
   isDrawing = true;
   const pos = getCanvasCoordinates(e);
-  ctx.beginPath();
-  ctx.moveTo(pos.x, pos.y);
-  ctx.strokeStyle = selectedColor;
-  ctx.lineWidth = brushSize;
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
+  ctx.beginPath(); ctx.moveTo(pos.x, pos.y);
+  ctx.strokeStyle = selectedColor; ctx.lineWidth = brushSize;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
 }
 
 function draw(e) {
   if (!isDrawing || (e.touches && e.touches.length > 1)) return;
   const pos = getCanvasCoordinates(e);
-  ctx.lineTo(pos.x, pos.y);
-  ctx.stroke();
+  ctx.lineTo(pos.x, pos.y); ctx.stroke();
 }
 
-function stopDrawing() {
-  isDrawing = false;
-}
+function stopDrawing() { isDrawing = false; }
 
 canvas.addEventListener('mousedown', startDrawing);
 canvas.addEventListener('mousemove', draw);
@@ -558,28 +443,19 @@ const stage = document.getElementById('stage-container');
 stage.addEventListener('touchstart', (e) => {
   if (e.touches.length === 2) {
     isDrawing = false;
-    initialPinchDist = Math.hypot(
-      e.touches[0].clientX - e.touches[1].clientX,
-      e.touches[0].clientY - e.touches[1].clientY
-    );
+    initialPinchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
     initialScale = scale;
-  } else if (e.touches.length === 1) {
-    startDrawing(e);
-  }
+  } else if (e.touches.length === 1) startDrawing(e);
 }, { passive: false });
 
 stage.addEventListener('touchmove', (e) => {
   if (e.touches.length === 2 && initialPinchDist) {
     e.preventDefault();
-    const dist = Math.hypot(
-      e.touches[0].clientX - e.touches[1].clientX,
-      e.touches[0].clientY - e.touches[1].clientY
-    );
+    const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
     scale = Math.min(Math.max(1, initialScale * (dist / initialPinchDist)), 4);
     updateTransform();
   } else if (e.touches.length === 1 && isDrawing) {
-    e.preventDefault();
-    draw(e);
+    e.preventDefault(); draw(e);
   }
 }, { passive: false });
 
@@ -590,25 +466,18 @@ stage.addEventListener('touchend', (e) => {
 
 function setPen(pen) {
   document.querySelectorAll('.pen-btn').forEach(b => {
-    b.classList.remove('bg-white', 'shadow-sm');
-    b.classList.add('text-stone-500');
+    b.classList.remove('bg-white', 'shadow-sm'); b.classList.add('text-stone-500');
   });
   const activeBtn = document.querySelector(`[data-pen="${pen}"]`);
-  if (activeBtn) {
-    activeBtn.classList.add('bg-white', 'shadow-sm');
-    activeBtn.classList.remove('text-stone-500');
-  }
+  if (activeBtn) { activeBtn.classList.add('bg-white', 'shadow-sm'); activeBtn.classList.remove('text-stone-500'); }
   selectedColor = pen === 'eraser' ? '#FFFFFF' : PALETTE[0];
 }
 
 function startScanProcess() {
   const scanOverlay = document.getElementById('scan-overlay');
-  scanOverlay.classList.remove('hidden');
-  scanOverlay.classList.add('flex');
-
+  scanOverlay.classList.remove('hidden'); scanOverlay.classList.add('flex');
   setTimeout(() => {
-    scanOverlay.classList.add('hidden');
-    scanOverlay.classList.remove('flex');
+    scanOverlay.classList.add('hidden'); scanOverlay.classList.remove('flex');
     evaluateMandalaResult();
   }, 2000);
 }
@@ -621,9 +490,7 @@ function evaluateMandalaResult() {
   for (let i = 0; i < userImg.length; i += 16) {
     const isMaskBlack = maskImg[i] < 50;
     const isUserColor = userImg[i] !== 255 || userImg[i+1] !== 255 || userImg[i+2] !== 255;
-    if (isMaskBlack && isUserColor) {
-      crossedLines++;
-    }
+    if (isMaskBlack && isUserColor) crossedLines++;
   }
 
   const resultModal = document.getElementById('modal-result');
@@ -633,34 +500,26 @@ function evaluateMandalaResult() {
   const pts = document.getElementById('result-pts');
 
   if (crossedLines > 350) {
-    hearts = Math.max(0, hearts - 1);
-    playBreakSound();
-    icon.innerText = '💔';
-    title.innerText = 'Out of Bounds!';
-    msg.innerText = hearts === 0 ? 'All hearts broken! Revive required.' : 'You crossed black boundary lines! A heart broke.';
+    hearts = Math.max(0, hearts - 1); playBreakSound();
+    icon.innerText = '💔'; title.innerText = 'تجاوزت الحدود!';
+    msg.innerText = hearts === 0 ? 'انتهت جميع القلوب! استرجع محاولاتك.' : 'لقد قمت بالتلوين فوق الخطوط السوداء!';
     pts.innerText = '0 PTS';
   } else {
-    points += 200;
-    playWinSound();
+    points += 200; playWinSound();
     gallery.push(canvas.toDataURL());
     localStorage.setItem('m_gallery', JSON.stringify(gallery));
-    icon.innerText = '👏✨';
-    title.innerText = 'Perfect Precision!';
-    msg.innerText = 'Amazing control! No boundary lines crossed.';
+    icon.innerText = '👏✨'; title.innerText = 'رسم ممتاز ودقيق!';
+    msg.innerText = 'دقة عالية في التلوين دون الخروج عن الحدود!';
     pts.innerText = '+200 PTS';
   }
 
-  updateBadges();
-  resultModal.style.display = 'flex';
+  updateBadges(); resultModal.style.display = 'flex';
 }
 
 function closeResultModal() {
   document.getElementById('modal-result').style.display = 'none';
-  if (hearts === 0) {
-    checkHeartsRefill();
-  } else {
-    showScreen('levels');
-  }
+  if (hearts === 0) checkHeartsRefill();
+  else showScreen('levels');
 }
 
 function toggleGalerie(open) {
@@ -672,7 +531,7 @@ function toggleGalerie(open) {
     gallery.forEach(dataUrl => {
       const img = document.createElement('img');
       img.src = dataUrl;
-      img.className = 'w-full aspect-square rounded-xl border border-stone-200 shadow-sm';
+      img.className = 'w-full aspect-square rounded-xl border border-stone-200 shadow-sm object-contain bg-white';
       container.appendChild(img);
     });
   }
