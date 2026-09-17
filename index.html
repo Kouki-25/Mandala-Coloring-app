@@ -10,7 +10,9 @@
     html, body { width: 100% !important; height: 100% !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important; background-color: #f5f5f4; touch-action: manipulation; }
     #stage-container { touch-action: none !important; overflow: hidden; position: relative; }
     #paint-canvas { touch-action: none !important; transform-origin: center center; }
+    
     .palette-btn.active { transform: scale(1.25); outline: 3px solid #1c1917; outline-offset: 2px; }
+    .palette-btn.glossy { box-shadow: 0 0 10px currentColor; }
     
     /* Green Scan Animation */
     @keyframes scanLineGreen {
@@ -137,7 +139,6 @@
         <button onclick="setPen('fineBrush')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white shadow-sm" data-pen="fineBrush">🖌️ Brush</button>
         <button onclick="setPen('marker')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="marker">🖍️ Marker</button>
         <button onclick="setPen('pencil')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="pencil">✏️ Pencil</button>
-        <!-- Undo & Redo Arrows -->
         <button onclick="undoAction()" class="px-2.5 py-1 rounded-lg text-xs font-bold text-stone-700 bg-stone-200 hover:bg-stone-300 transition active:scale-95">↩️ Undo</button>
         <button onclick="redoAction()" class="px-2.5 py-1 rounded-lg text-xs font-bold text-stone-700 bg-stone-200 hover:bg-stone-300 transition active:scale-95">↪️ Redo</button>
       </div>
@@ -145,7 +146,8 @@
         <label class="flex items-center gap-1 font-semibold text-[11px]">Size <input id="brush-size" type="range" min="2" max="30" value="6" class="w-16 accent-stone-900" oninput="brushSize=+this.value"></label>
       </div>
     </div>
-    <div id="palette-swatches" class="flex items-center gap-2.5 overflow-x-auto py-1 px-1"></div>
+    <!-- Swatches Grid -->
+    <div id="palette-swatches" class="flex items-center gap-2 overflow-x-auto py-1 px-1"></div>
   </footer>
 </div>
 
@@ -216,11 +218,53 @@ function playCoinSound() {
 function playBreakSound() { [220, 180, 140].forEach((f, i) => setTimeout(() => playTone(f, 'sawtooth', 0.3), i * 80)); }
 function playReviveSound() { [350, 450, 600, 800, 1050].forEach((f, i) => setTimeout(() => playTone(f, 'triangle', 0.25), i * 70)); }
 
-// EXPANDED PALETTE (Includes Light Pastels & Bright Vibrant Colors)
+// FULL COMPLETE PALETTE (Red, Blue, Green, Yellow, Purple, Orange, Pink - Light & Dark + Glossy/Metallic/Neon)
 const PALETTE = [
-  '#FFB7B2', '#FFDAC1', '#E2F0CB', '#B5EAD7', '#C7CEEA', '#F3C4FB', '#FF9AA2', '#FFFFD1',
-  '#F4A261', '#E76F51', '#2A9D8F', '#264653', '#E9C46A', '#9B5DE5', '#F15BB5', '#00BBF9',
-  '#00F5D4', '#70E000', '#3A0CA3', '#4CC9F0', '#B07D62', '#895737', '#6B705C', '#1C1917'
+  // --- الأحمر (Red) ---
+  { name: 'أحمر فاتح', hex: '#FF8A80', category: 'light' },
+  { name: 'أحمر قياسي', hex: '#F44336', category: 'vivid' },
+  { name: 'أحمر غامق / عنابي', hex: '#B71C1C', category: 'dark' },
+
+  // --- الأزرق (Blue) ---
+  { name: 'أزرق سماوي فاتح', hex: '#80D8FF', category: 'light' },
+  { name: 'أزرق قياسي', hex: '#2196F3', category: 'vivid' },
+  { name: 'أزرق كحلي غامق', hex: '#0D47A1', category: 'dark' },
+
+  // --- الأخضر (Green) ---
+  { name: 'أخضر نعناعي فاتح', hex: '#A7F3D0', category: 'light' },
+  { name: 'أخضر زاهي', hex: '#4CAF50', category: 'vivid' },
+  { name: 'أخضر زيتي غامق', hex: '#1B5E20', category: 'dark' },
+
+  // --- الأصفر (Yellow) ---
+  { name: 'أصفر باستيل فاتح', hex: '#FFF9C4', category: 'light' },
+  { name: 'أصفر مشبع', hex: '#FFEB3B', category: 'vivid' },
+  { name: 'أصفر خردلي غامق', hex: '#F57F17', category: 'dark' },
+
+  // --- البنفسجي (Purple) ---
+  { name: 'بنفسجي لافندر فاتح', hex: '#E1BEE7', category: 'light' },
+  { name: 'بنفسجي قياسي', hex: '#9C27B0', category: 'vivid' },
+  { name: 'بنفسجي غامق', hex: '#4A148C', category: 'dark' },
+
+  // --- البرتقالي (Orange) ---
+  { name: 'برتقالي خوخي فاتح', hex: '#FFE0B2', category: 'light' },
+  { name: 'برتقالي زاهي', hex: '#FF9800', category: 'vivid' },
+  { name: 'برتقالي محروق غامق', hex: '#E65100', category: 'dark' },
+
+  // --- الوردي (Pink) ---
+  { name: 'وردي ناعم فاتح', hex: '#F8BBD0', category: 'light' },
+  { name: 'وردي زاهي', hex: '#E91E63', category: 'vivid' },
+  { name: 'وردي داكن / عنابي وردي', hex: '#880E4F', category: 'dark' },
+
+  // --- الألوان اللامعة / المعدنية / النيون (Glossy, Metallic & Neon) ---
+  { name: 'ذهبي لامع', hex: '#FFD700', category: 'glossy' },
+  { name: 'فضي معدني', hex: '#C0C0C0', category: 'glossy' },
+  { name: 'برونزي لامع', hex: '#CD7F32', category: 'glossy' },
+  { name: 'نحاسي براق', hex: '#B87333', category: 'glossy' },
+  { name: 'وردي نيون مشع', hex: '#FF007F', category: 'glossy' },
+  { name: 'أخضر نيون فسفوري', hex: '#00FF66', category: 'glossy' },
+  { name: 'أزرق نيون كهربائي', hex: '#00E5FF', category: 'glossy' },
+  { name: 'أصفر نيون مشع', hex: '#CCFF00', category: 'glossy' },
+  { name: 'أسود فاحم', hex: '#121212', category: 'dark' }
 ];
 
 function generateUniqueSvg(book, lvl) {
@@ -278,7 +322,7 @@ let points = +(localStorage.getItem('m_pts_v10') || 0);
 let hearts = +(localStorage.getItem('m_hearts_v10') || 3);
 let currentBook = 'Beginner';
 let currentLevel = 1;
-let selectedColor = PALETTE[0];
+let selectedColor = PALETTE[0].hex;
 let brushSize = 6;
 let unlocked = JSON.parse(localStorage.getItem('m_unlocked_v10') || '{"Beginner":[1],"Intermediate":[1],"Pro":[1]}');
 let gallery = JSON.parse(localStorage.getItem('m_gallery_v10') || '[]');
@@ -288,7 +332,6 @@ const ctx = canvas.getContext('2d');
 let maskCanvas = document.createElement('canvas');
 let maskCtx = maskCanvas.getContext('2d');
 
-// Undo / Redo History Buffers
 let undoStack = [];
 let redoStack = [];
 const MAX_HISTORY = 15;
@@ -325,12 +368,14 @@ function resetZoom() { scale = 1; panX = 0; panY = 0; updateTransform(); }
 function renderPalette() {
   const container = document.getElementById('palette-swatches');
   container.innerHTML = '';
-  PALETTE.forEach((color) => {
+  PALETTE.forEach((item) => {
     const btn = document.createElement('button');
-    btn.className = `palette-btn w-7 h-7 rounded-full shrink-0 border border-black/10 shadow-sm transition ${color === selectedColor ? 'active' : ''}`;
-    btn.style.backgroundColor = color;
+    btn.title = item.name;
+    btn.className = `palette-btn w-7 h-7 rounded-full shrink-0 border border-black/10 shadow-sm transition ${item.category === 'glossy' ? 'glossy' : ''} ${item.hex === selectedColor ? 'active' : ''}`;
+    btn.style.backgroundColor = item.hex;
+    btn.style.color = item.hex;
     btn.onclick = () => {
-      selectedColor = color;
+      selectedColor = item.hex;
       document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     };
