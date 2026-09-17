@@ -34,7 +34,6 @@
       outline: 3px solid #1c1917;
       outline-offset: 2px;
     }
-    /* Scanner Animation Effect */
     @keyframes scanLine {
       0% { top: 0%; }
       50% { top: 95%; }
@@ -57,7 +56,7 @@
 <!-- Home Screen -->
 <div id="screen-home" class="flex-1 flex flex-col w-full max-w-5xl mx-auto p-4 md:p-8 overflow-y-auto">
   <header class="flex items-center justify-between pb-5 border-b border-stone-200 shrink-0">
-    <div id="home-hearts" class="flex items-center gap-1 bg-white px-3.5 py-1.5 rounded-full border border-stone-200 shadow-sm text-rose-500 text-lg">
+    <div id="home-hearts" onclick="checkHeartsRefill()" class="cursor-pointer flex items-center gap-1 bg-white px-3.5 py-1.5 rounded-full border border-stone-200 shadow-sm text-rose-500 text-lg hover:scale-105 transition">
       <span id="h1">❤️</span><span id="h2">❤️</span><span id="h3">❤️</span>
     </div>
     <div class="text-center">
@@ -73,22 +72,22 @@
   <main class="flex-1 my-6">
     <div class="text-center mb-6">
       <h2 class="text-xl md:text-2xl font-bold text-stone-800">Choose a Difficulty Book</h2>
-      <p class="text-xs text-stone-600 mt-1">Houses, Animals, Geometry, & Deep Mandala Geometry</p>
+      <p class="text-xs text-stone-600 mt-1">Houses, Animals, Complex Geometry & Sacred Floral Mandala</p>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       <div onclick="openBook('Beginner')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-emerald-800 to-teal-950 text-white shadow-md hover:-translate-y-1 transition">
         <div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-700">Beginner</span><span id="unlocked-count-Beginner" class="text-xs text-emerald-200">1/20 Unlocked</span></div>
-        <div class="text-center"><div class="text-4xl mb-2">🏠🐱</div><h3 class="text-xl font-bold">Houses & Animals</h3><p class="text-xs text-emerald-200">Easy outlines & broad zones</p></div>
+        <div class="text-center"><div class="text-4xl mb-2">🏠🐰</div><h3 class="text-xl font-bold">Houses & Animals</h3><p class="text-xs text-emerald-200">Easy shapes & varied objects</p></div>
         <div class="text-xs text-right font-semibold">Open Book &rarr;</div>
       </div>
       <div onclick="openBook('Intermediate')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-amber-800 to-stone-900 text-white shadow-md hover:-translate-y-1 transition">
         <div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-700">Intermediate</span><span id="unlocked-count-Intermediate" class="text-xs text-amber-200">1/20 Unlocked</span></div>
-        <div class="text-center"><div class="text-4xl mb-2">🔺🔷</div><h3 class="text-xl font-bold">Triangles & 3D Geometry</h3><p class="text-xs text-amber-200">Structured lattice patterns</p></div>
+        <div class="text-center"><div class="text-4xl mb-2">⭐🔷</div><h3 class="text-xl font-bold">Geometric Patterns</h3><p class="text-xs text-amber-200">Stars, lattice & floral grids</p></div>
         <div class="text-xs text-right font-semibold">Open Book &rarr;</div>
       </div>
       <div onclick="openBook('Pro')" class="cursor-pointer flex flex-col justify-between h-64 rounded-2xl p-6 bg-gradient-to-br from-purple-950 to-stone-950 text-white shadow-md hover:-translate-y-1 transition">
         <div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-800">Pro Master</span><span id="unlocked-count-Pro" class="text-xs text-rose-200">1/20 Unlocked</span></div>
-        <div class="text-center"><div class="text-4xl mb-2">🌌</div><h3 class="text-xl font-bold">Ultra Complex Mandala</h3><p class="text-xs text-rose-200">Sacred micro details for adults</p></div>
+        <div class="text-center"><div class="text-4xl mb-2">🌸🌌</div><h3 class="text-xl font-bold">Sacred Mandala & Flowers</h3><p class="text-xs text-rose-200">Ultra rich floral micro details</p> rejection</div>
         <div class="text-xs text-right font-semibold">Open Book &rarr;</div>
       </div>
     </div>
@@ -116,7 +115,6 @@
 
 <!-- Coloring Screen -->
 <div id="screen-coloring" class="flex-1 flex flex-col w-full h-full overflow-hidden hidden bg-stone-100">
-  <!-- Top Bar -->
   <header class="h-16 bg-white border-b border-stone-200 px-3 flex items-center justify-between z-20 shrink-0 gap-2">
     <div class="flex items-center gap-2">
       <button onclick="showScreen('levels')" class="p-2 rounded-lg hover:bg-stone-100 font-bold text-sm">&larr;</button>
@@ -126,13 +124,12 @@
       </div>
     </div>
 
-    <!-- Prominent Center Complete Button -->
     <button id="complete-btn" onclick="startScanProcess()" class="px-6 py-2 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-stone-950 font-black text-xs sm:text-sm shadow-lg transform active:scale-95 transition flex items-center gap-2 border border-amber-300">
       <span>✓</span> <span>VERIFY & COMPLETE</span>
     </button>
 
     <div class="flex items-center gap-2">
-      <div class="flex items-center gap-1 text-rose-500 text-sm font-bold">
+      <div id="coloring-hearts" onclick="checkHeartsRefill()" class="cursor-pointer flex items-center gap-1 text-rose-500 text-sm font-bold">
         <span id="ch1">❤️</span><span id="ch2">❤️</span><span id="ch3">❤️</span>
       </div>
       <button onclick="resetZoom()" class="p-1.5 bg-stone-100 rounded-lg hover:bg-stone-200 text-xs font-bold hidden sm:block">🔍 Reset</button>
@@ -143,11 +140,10 @@
   <main id="stage-container" class="flex-1 relative flex items-center justify-center p-2 overflow-hidden bg-stone-200/60">
     <div id="stage-wrapper" class="relative aspect-square max-w-[min(100%,calc(100dvh-175px))] max-h-[min(100%,calc(100dvh-175px))] w-full h-full rounded-2xl bg-white shadow-xl overflow-hidden flex items-center justify-center">
       <canvas id="paint-canvas" class="w-full h-full cursor-crosshair"></canvas>
-      <!-- Scan Overlay -->
       <div id="scan-overlay" class="absolute inset-0 bg-stone-950/40 backdrop-blur-[2px] hidden flex-col items-center justify-center z-30">
         <div class="scanner-line"></div>
         <div class="bg-stone-900/90 text-amber-400 px-5 py-2.5 rounded-full font-bold text-xs shadow-2xl border border-amber-400/40 animate-pulse flex items-center gap-2">
-          <span>🔍</span> <span>AI SCANNING LINE ACCURACY...</span>
+          <span>🔍</span> <span>AI SCANNING BOUNDARY ACCURACY...</span>
         </div>
       </div>
     </div>
@@ -179,6 +175,26 @@
       <div><span class="text-xs text-stone-500 block">Earned</span><span id="result-pts" class="text-amber-700">+200 PTS</span></div>
     </div>
     <button onclick="closeResultModal()" class="w-full py-2.5 rounded-xl bg-stone-900 text-stone-100 font-bold text-xs shadow-md">Continue</button>
+  </div>
+</div>
+
+<!-- Revive Hearts Modal -->
+<div id="modal-revive" class="fixed inset-0 z-50 bg-stone-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
+  <div class="w-full max-w-sm rounded-3xl bg-white shadow-2xl p-6 text-center border border-stone-200">
+    <div class="text-5xl mb-3 animate-bounce">💖</div>
+    <h3 class="text-xl font-bold text-stone-900">Out of Hearts!</h3>
+    <p class="text-xs text-stone-600 mt-2">Deduct <span class="font-bold text-amber-600">300 Points</span> to revive 3 new lives and continue coloring?</p>
+    <div class="my-4 p-3 rounded-2xl bg-rose-50 border border-rose-200 flex justify-center items-center gap-2 font-bold text-lg text-rose-600">
+      <span>💔 💔 💔</span> &rarr; <span>❤️❤️❤️</span>
+    </div>
+    <div class="flex flex-col gap-2">
+      <button onclick="reviveHearts()" class="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-stone-950 font-black text-xs shadow-md hover:brightness-105 active:scale-95 transition">
+        REVIVE FOR ⭐ 300 PTS
+      </button>
+      <button onclick="closeReviveModal()" class="w-full py-2 rounded-xl bg-stone-100 text-stone-600 font-bold text-xs hover:bg-stone-200">
+        Maybe Later
+      </button>
+    </div>
   </div>
 </div>
 
@@ -215,6 +231,7 @@ function playTone(freq, type, duration) {
 }
 function playWinSound() { [523, 659, 783, 1046].forEach((f, i) => setTimeout(() => playTone(f, 'sine', 0.4), i * 100)); }
 function playBreakSound() { [220, 180, 140].forEach((f, i) => setTimeout(() => playTone(f, 'sawtooth', 0.3), i * 80)); }
+function playReviveSound() { [350, 450, 600, 800, 1050].forEach((f, i) => setTimeout(() => playTone(f, 'triangle', 0.25), i * 70)); }
 
 const PALETTE = [
   '#B07D62', '#895737', '#C08552', '#DAB692', '#F4ACB7', 
@@ -223,12 +240,12 @@ const PALETTE = [
 ];
 
 let points = +(localStorage.getItem('m_pts') || 1000);
-let hearts = 3;
+let hearts = +(localStorage.getItem('m_hearts') || 3);
 let currentBook = 'Beginner';
 let currentLevel = 1;
 let selectedColor = PALETTE[0];
 let brushSize = 6;
-let unlocked = JSON.parse(localStorage.getItem('m_unlocked_v3') || '{"Beginner":[1],"Intermediate":[1],"Pro":[1]}');
+let unlocked = JSON.parse(localStorage.getItem('m_unlocked_v4') || '{"Beginner":[1],"Intermediate":[1],"Pro":[1]}');
 let gallery = JSON.parse(localStorage.getItem('m_gallery') || '[]');
 let historyStack = [];
 
@@ -272,7 +289,8 @@ function updateBadges() {
   document.getElementById('galerie-count').innerText = gallery.length;
   updateHeartsUI();
   localStorage.setItem('m_pts', points);
-  localStorage.setItem('m_unlocked_v3', JSON.stringify(unlocked));
+  localStorage.setItem('m_hearts', hearts);
+  localStorage.setItem('m_unlocked_v4', JSON.stringify(unlocked));
 }
 
 function updateHeartsUI() {
@@ -286,6 +304,31 @@ function updateHeartsUI() {
   });
 }
 
+function checkHeartsRefill() {
+  if (hearts === 0) {
+    document.getElementById('modal-revive').style.display = 'flex';
+  } else {
+    showToast(`You have ${hearts} heart(s) left!`);
+  }
+}
+
+function reviveHearts() {
+  if (points >= 300) {
+    points -= 300;
+    hearts = 3;
+    playReviveSound();
+    updateBadges();
+    closeReviveModal();
+    showToast('❤️ Lives Fully Restored!');
+  } else {
+    showToast('Not enough points to revive!');
+  }
+}
+
+function closeReviveModal() {
+  document.getElementById('modal-revive').style.display = 'none';
+}
+
 function showScreen(id) {
   document.querySelectorAll('#screen-home, #screen-levels, #screen-coloring').forEach(s => s.classList.add('hidden'));
   document.getElementById(`screen-${id}`).classList.remove('hidden');
@@ -293,13 +336,16 @@ function showScreen(id) {
 }
 
 function openBook(b) {
+  if (hearts === 0) {
+    checkHeartsRefill();
+    return;
+  }
   currentBook = b;
   document.getElementById('book-title-header').innerText = `${b} Book`;
   renderLevels();
   showScreen('levels');
 }
 
-// Draw Varied Templates per Level & Book
 function drawMandalaTemplateToCtx(targetCtx, diff, lvl, w=1000, h=1000) {
   targetCtx.save();
   targetCtx.fillStyle = '#FFFFFF';
@@ -307,65 +353,76 @@ function drawMandalaTemplateToCtx(targetCtx, diff, lvl, w=1000, h=1000) {
   targetCtx.strokeStyle = '#000000';
   targetCtx.lineWidth = diff === 'Beginner' ? 8 : diff === 'Intermediate' ? 5 : 3;
 
-  const scaleFactor = w / 1000;
-  targetCtx.scale(scaleFactor, scaleFactor);
+  const s = w / 1000;
+  targetCtx.scale(s, s);
 
   if (diff === 'Beginner') {
-    const type = (lvl % 3);
-    if (type === 1) {
-      // House Design
-      targetCtx.strokeRect(250, 450, 500, 400); // Main frame
-      targetCtx.beginPath(); targetCtx.moveTo(200, 450); targetCtx.lineTo(500, 150); targetCtx.lineTo(800, 450); targetCtx.closePath(); targetCtx.stroke(); // Roof
-      targetCtx.strokeRect(425, 600, 150, 250); // Door
-      targetCtx.strokeRect(300, 500, 100, 100); targetCtx.strokeRect(600, 500, 100, 100); // Windows
-    } else if (type === 2) {
-      // Cat Face
-      targetCtx.beginPath(); targetCtx.arc(500, 550, 280, 0, Math.PI*2); targetCtx.stroke(); // Head
-      targetCtx.beginPath(); targetCtx.moveTo(260, 360); targetCtx.lineTo(200, 120); targetCtx.lineTo(380, 280); targetCtx.stroke(); // Ear L
-      targetCtx.beginPath(); targetCtx.moveTo(740, 360); targetCtx.lineTo(800, 120); targetCtx.lineTo(620, 280); targetCtx.stroke(); // Ear R
-      targetCtx.strokeRect(360, 480, 70, 70); targetCtx.strokeRect(570, 480, 70, 70); // Eyes
-    } else {
-      // Floral Easy Mandala
-      targetCtx.translate(500, 500);
-      for (let i = 0; i < 8; i++) {
-        targetCtx.rotate(Math.PI / 4);
-        targetCtx.beginPath(); targetCtx.arc(0, -200, 120, 0, Math.PI * 2); targetCtx.stroke();
-      }
-      targetCtx.beginPath(); targetCtx.arc(0, 0, 120, 0, Math.PI * 2); targetCtx.stroke();
+    switch(lvl) {
+      case 1:
+        targetCtx.strokeRect(250, 450, 500, 400);
+        targetCtx.beginPath(); targetCtx.moveTo(200, 450); targetCtx.lineTo(500, 180); targetCtx.lineTo(800, 450); targetCtx.closePath(); targetCtx.stroke();
+        targetCtx.strokeRect(430, 600, 140, 250); targetCtx.strokeRect(300, 500, 100, 100); targetCtx.strokeRect(600, 500, 100, 100);
+        break;
+      case 2:
+        targetCtx.beginPath(); targetCtx.arc(500, 550, 250, 0, Math.PI*2); targetCtx.stroke();
+        targetCtx.beginPath(); targetCtx.moveTo(280, 360); targetCtx.lineTo(200, 150); targetCtx.lineTo(380, 310); targetCtx.stroke();
+        targetCtx.beginPath(); targetCtx.moveTo(720, 360); targetCtx.lineTo(800, 150); targetCtx.lineTo(620, 310); targetCtx.stroke();
+        targetCtx.strokeRect(380, 480, 60, 60); targetCtx.strokeRect(560, 480, 60, 60);
+        break;
+      case 3:
+        targetCtx.translate(500, 500);
+        for(let i=0; i<8; i++){
+          targetCtx.rotate(Math.PI/4);
+          targetCtx.beginPath(); targetCtx.arc(0, -180, 110, 0, Math.PI*2); targetCtx.stroke();
+        }
+        targetCtx.beginPath(); targetCtx.arc(0, 0, 100, 0, Math.PI*2); targetCtx.stroke();
+        break;
+      default:
+        targetCtx.translate(500, 500);
+        let sides = 3 + (lvl % 6);
+        for(let r=1; r<=4; r++){
+          let rad = r * 90;
+          targetCtx.beginPath();
+          for(let i=0; i<sides; i++){
+            let a = (i*Math.PI*2)/sides;
+            let x = rad * Math.cos(a), y = rad * Math.sin(a);
+            if(i===0) targetCtx.moveTo(x, y); else targetCtx.lineTo(x, y);
+          }
+          targetCtx.closePath(); targetCtx.stroke();
+        }
+        break;
     }
   } else if (diff === 'Intermediate') {
-    const type = (lvl % 2);
     targetCtx.translate(500, 500);
-    if (type === 1) {
-      // 3D Triangles Lattice
-      for (let r = 1; r <= 5; r++) {
-        let sz = r * 80;
-        targetCtx.beginPath();
-        targetCtx.moveTo(0, -sz); targetCtx.lineTo(sz, sz); targetCtx.lineTo(-sz, sz);
-        targetCtx.closePath(); targetCtx.stroke();
-      }
-    } else {
-      // Rectangular 3D Grid
-      for(let r=1; r<=6; r++) {
-        let sz = r * 60;
-        targetCtx.strokeRect(-sz, -sz, sz*2, sz*2);
-        targetCtx.beginPath(); targetCtx.moveTo(-sz, -sz); targetCtx.lineTo(sz, sz); targetCtx.stroke();
-      }
+    switch(lvl) {
+      case 1:
+        for(let r=1; r<=7; r++) {
+          let sz = r * 60;
+          targetCtx.beginPath();
+          targetCtx.moveTo(0, -sz); targetCtx.lineTo(sz, sz); targetCtx.lineTo(-sz, sz);
+          targetCtx.closePath(); targetCtx.stroke();
+        }
+        break;
+      default:
+        let petals = 6 + (lvl % 7);
+        for(let r=1; r<=5; r++){
+          let rad = r * 70;
+          for(let p=0; p<petals; p++){
+            targetCtx.rotate((Math.PI*2)/petals);
+            targetCtx.strokeRect(-rad/2, -rad/2, rad, rad);
+          }
+        }
+        break;
     }
   } else {
-    // Pro Master Complex Sacred Mandala
     targetCtx.translate(500, 500);
-    let rings = 10 + (lvl % 5);
-    let petals = 16 + (lvl % 4) * 8;
-    for (let r = 1; r <= rings; r++) {
-      let radius = r * (430 / rings);
-      targetCtx.beginPath(); targetCtx.arc(0, 0, radius, 0, Math.PI * 2); targetCtx.stroke();
-      for (let p = 0; p < petals; p++) {
-        let angle = (p * Math.PI * 2) / petals;
-        targetCtx.save();
-        targetCtx.rotate(angle);
-        targetCtx.beginPath(); targetCtx.moveTo(0, 0); targetCtx.lineTo(radius, 0); targetCtx.stroke();
-        targetCtx.restore();
+    let density = 12 + (lvl % 8) * 2;
+    for(let r=1; r<=8; r++){
+      let rad = r * 50;
+      targetCtx.beginPath(); targetCtx.arc(0, 0, rad, 0, Math.PI*2); targetCtx.stroke();
+      for(let p=0; p<density; p++){
+        targetCtx.rotate((Math.PI*2)/density);
+        targetCtx.beginPath(); targetCtx.arc(rad, 0, 30, 0, Math.PI*2); targetCtx.stroke();
       }
     }
   }
@@ -398,6 +455,10 @@ function renderLevels() {
         ${isUnlocked ? 'Color Now' : `Unlock ⭐ ${cost}`}
       </button>`;
     card.onclick = () => {
+      if (hearts === 0) {
+        checkHeartsRefill();
+        return;
+      }
       if(isUnlocked) startColoring(i);
       else {
         if(points >= cost) {
@@ -530,7 +591,6 @@ function setPen(pen) {
   selectedColor = pen === 'eraser' ? '#FFFFFF' : PALETTE[0];
 }
 
-// Radar Scan Step Sequence
 function startScanProcess() {
   const scanOverlay = document.getElementById('scan-overlay');
   scanOverlay.classList.remove('hidden');
@@ -567,7 +627,7 @@ function evaluateMandalaResult() {
     playBreakSound();
     icon.innerText = '💔';
     title.innerText = 'Out of Bounds!';
-    msg.innerText = 'You crossed black boundary lines! A heart broke.';
+    msg.innerText = hearts === 0 ? 'All hearts broken! Revive required.' : 'You crossed black boundary lines! A heart broke.';
     pts.innerText = '0 PTS';
   } else {
     points += 200;
@@ -586,7 +646,11 @@ function evaluateMandalaResult() {
 
 function closeResultModal() {
   document.getElementById('modal-result').style.display = 'none';
-  showScreen('levels');
+  if (hearts === 0) {
+    checkHeartsRefill();
+  } else {
+    showScreen('levels');
+  }
 }
 
 function toggleGalerie(open) {
