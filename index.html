@@ -1,34 +1,43 @@
-
-lightbulb
-Thought for 30 seconds
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <!-- ضع سطر الـ viewport الجديد هنا مباشرة -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<style>
-<style>
-  /* ضع أسطر التنسيق الجديدة هنا في أول قسم style */
-  html, body {
-    width: 100% !important;
-    height: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-  }
-  canvas, #canvas-container, .drawing-area {
-    touch-action: auto !important;
-  }
-  /* هنا تجد باقي أكواد التنسيقات القديمة لتطبيقك */
-</style>
-</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>✨ MANDALA ART ✨</title>
+
+  <!-- مكتبة Tailwind CSS للتنسيق الأصلي -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* قفل الواجهة الرئيسية ومنع السحب الجانبي واهتزاز الشاشة */
+    html, body {
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* إتاحة حركة التكبير (Zoom) واللمس الحر فقط داخل منطقة الرسم */
+    canvas, #stage-wrapper, .drawing-area {
+      touch-action: auto !important;
+    }
+
+    /* ضمان استجابة فورية للأزرار عند الضغط باللمس */
+    button, .cursor-pointer {
+      touch-action: manipulation !important;
+    }
+  </style>
 </head>
 <body class="bg-stone-100 text-stone-900 h-screen h-[100dvh] flex flex-col overflow-hidden">
+
 <div id="toast" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl bg-stone-900 text-amber-300 border border-amber-400/50 shadow-2xl text-xs sm:text-sm font-semibold hidden items-center gap-2"></div>
+
+<!-- الشاشة الرئيسية: الكتب والمستوى -->
 <div id="screen-home" class="flex-1 flex flex-col w-full max-w-5xl mx-auto p-4 md:p-8 overflow-y-auto">
 <header class="flex items-center justify-between pb-5 border-b border-stone-200">
 <div id="hearts-container" class="flex items-center gap-1 bg-white px-3.5 py-1.5 rounded-full border border-stone-200 shadow-sm text-rose-500 text-lg">
@@ -72,6 +81,8 @@ Thought for 30 seconds
 <button onclick="addMaxMoney()" class="px-4 py-2 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-100 font-semibold text-xs shadow-sm">✨ Instant Max Money</button>
 </footer>
 </div>
+
+<!-- شاشة قائمة المستويات -->
 <div id="screen-levels" class="flex-1 flex-col w-full max-w-5xl mx-auto p-4 md:p-6 overflow-hidden hidden">
 <header class="flex flex-wrap items-center justify-between pb-3 border-b border-stone-200 gap-2">
 <div class="flex items-center gap-2">
@@ -94,6 +105,8 @@ Thought for 30 seconds
 </div>
 <main id="levels-grid" class="flex-1 overflow-y-auto py-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></main>
 </div>
+
+<!-- شاشة التلوين الرسمية -->
 <div id="screen-coloring" class="flex-1 flex-col w-full h-full overflow-hidden hidden bg-stone-100">
 <header class="h-14 bg-white border-b border-stone-200 px-4 flex items-center justify-between z-20 shrink-0">
 <div class="flex items-center gap-3">
@@ -134,10 +147,12 @@ Thought for 30 seconds
 <label class="flex items-center gap-1 font-semibold text-[11px]">Opacity <input id="brush-opacity" type="range" min="0.2" max="1" step="0.05" value="0.85" class="w-16 accent-stone-900" oninput="brushOpacity=+this.value"></label>
 </div>
 </div>
-<!-- Color Swatches -->
+<!-- الألوان -->
 <div id="palette-swatches" class="flex items-center gap-2 overflow-x-auto py-1"></div>
 </footer>
 </div>
+
+<!-- النافذة المنبثقة للنتائج -->
 <div id="modal-result" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm hidden items-center justify-center p-4">
 <div class="w-full max-w-sm rounded-3xl bg-white shadow-2xl p-6 text-center border border-stone-200">
 <div id="result-icon" class="text-4xl mb-2">🏆</div>
@@ -153,6 +168,8 @@ Thought for 30 seconds
 </div>
 </div>
 </div>
+
+<!-- المعرض -->
 <div id="modal-galerie" class="fixed inset-0 z-50 bg-stone-950/70 backdrop-blur-sm hidden items-center justify-center p-4">
 <div class="w-full max-w-3xl max-h-[85vh] rounded-3xl bg-white shadow-2xl flex flex-col overflow-hidden border border-stone-200">
 <header class="p-4 border-b border-stone-200 flex justify-between items-center">
@@ -162,27 +179,28 @@ Thought for 30 seconds
 <main id="galerie-items" class="flex-1 overflow-y-auto p-4 grid grid-cols-2 sm:grid-cols-3 gap-4"></main>
 </div>
 </div>
+
 <script>
 // SOUND ENGINE
 let audioCtx = null, isMuted = false;
 function initSound() {
-if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-if (audioCtx.state === 'suspended') audioCtx.resume();
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
 }
 function toggleSound() {
-isMuted = !isMuted;
-document.getElementById('sound-btn').innerText = isMuted ? '🔇' : '🔊';
+  isMuted = !isMuted;
+  document.getElementById('sound-btn').innerText = isMuted ? '🔇' : '🔊';
 }
 function playTone(freq, type, duration, gainVal = 0.1) {
-if (isMuted) return; initSound(); if (!audioCtx) return;
-const now = audioCtx.currentTime;
-const osc = audioCtx.createOscillator();
-const gain = audioCtx.createGain();
-osc.type = type; osc.frequency.setValueAtTime(freq, now);
-gain.gain.setValueAtTime(gainVal, now);
-gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
-osc.connect(gain); gain.connect(audioCtx.destination);
-osc.start(now); osc.stop(now + duration);
+  if (isMuted) return; initSound(); if (!audioCtx) return;
+  const now = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = type; osc.frequency.setValueAtTime(freq, now);
+  gain.gain.setValueAtTime(gainVal, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.start(now); osc.stop(now + duration);
 }
 function playChime() { [523, 659, 783, 1046].forEach((f, i) => setTimeout(() => playTone(f, 'sine', 0.6, 0.08), i * 90)); }
 function playBreak() { [220, 180, 140].forEach((f, i) => setTimeout(() => playTone(f, 'sawtooth', 0.3, 0.12), i * 60)); }
@@ -202,91 +220,170 @@ let gallery = JSON.parse(localStorage.getItem('m_gallery') || '[]');
 
 // SVG GENERATORS
 function genLotusSvg(sym, seed) {
-let p = [`<circle cx="500" cy="500" r="450" fill="none" stroke="#2b2725" stroke-width="6"/>`,
-`<circle cx="500" cy="500" r="435" fill="none" stroke="#2b2725" stroke-width="2.5"/>`];
-[70, 150, 240, 330, 420].forEach(r => p.push(`<circle cx="500" cy="500" r="${r}" fill="none" stroke="#2b2725" stroke-width="2"/>`));
-for(let i=0; i<sym; i++){
-let a1 = (i*2*Math.PI)/sym, a2 = ((i+1)*2*Math.PI)/sym, am = (a1+a2)/2;
-let x1 = 500+Math.cos(a1)*150, y1 = 500+Math.sin(a1)*150;
-let x2 = 500+Math.cos(a2)*150, y2 = 500+Math.sin(a2)*150;
-let tx = 500+Math.cos(am)*240, ty = 500+Math.sin(am)*240;
-p.push(`<path d="M ${x1.toFixed(1)} ${y1.toFixed(1)} Q ${500+Math.cos(a1)*200} ${500+Math.sin(a1)*200} ${tx.toFixed(1)} ${ty.toFixed(1)} Q ${500+Math.cos(a2)*200} ${500+Math.sin(a2)*200} ${x2.toFixed(1)} ${y2.toFixed(1)}" fill="none" stroke="#2b2725" stroke-width="2.5"/>`);
-}
-return `<svg viewBox="0 0 1000 1000" class="w-full h-full">${p.join('')}</svg>`;
+  let p = [`<circle cx="500" cy="500" r="450" fill="none" stroke="#2b2725" stroke-width="6"/>`,
+  `<circle cx="500" cy="500" r="435" fill="none" stroke="#2b2725" stroke-width="2.5"/>`];
+  [70, 150, 240, 330, 420].forEach(r => p.push(`<circle cx="500" cy="500" r="${r}" fill="none" stroke="#2b2725" stroke-width="2"/>`));
+  for(let i=0; i<sym; i++){
+    let a1 = (i*2*Math.PI)/sym, a2 = ((i+1)*2*Math.PI)/sym, am = (a1+a2)/2;
+    let x1 = 500+Math.cos(a1)*150, y1 = 500+Math.sin(a1)*150;
+    let x2 = 500+Math.cos(a2)*150, y2 = 500+Math.sin(a2)*150;
+    let tx = 500+Math.cos(am)*240, ty = 500+Math.sin(am)*240;
+    p.push(`<path d="M ${x1.toFixed(1)} ${y1.toFixed(1)} Q ${500+Math.cos(a1)*200} ${500+Math.sin(a1)*200} ${tx.toFixed(1)} ${ty.toFixed(1)} Q ${500+Math.cos(a2)*200} ${500+Math.sin(a2)*200} ${x2.toFixed(1)} ${y2.toFixed(1)}" fill="none" stroke="#2b2725" stroke-width="2.5"/>`);
+  }
+  return `<svg viewBox="0 0 1000 1000" class="w-full h-full">${p.join('')}</svg>`;
 }
 
 function genCubeSvg() {
-let p = [`<circle cx="500" cy="500" r="450" fill="none" stroke="#2b2725" stroke-width="6"/>`,
-`<circle cx="500" cy="500" r="435" fill="none" stroke="#2b2725" stroke-width="2"/>`];
-function drawCube(x, y, s) {
-let h = s * 0.866, w = s * 0.5;
-p.push(`<polygon points="${x},${y-s} ${x+h},${y-w} ${x},${y} ${x-h},${y-w}" fill="none" stroke="#2b2725" stroke-width="2"/>`);
-p.push(`<polygon points="${x},${y} ${x-h},${y-w} ${x-h},${y+s-w} ${x},${y+s}" fill="none" stroke="#2b2725" stroke-width="2"/>`);
-p.push(`<polygon points="${x},${y} ${x+h},${y-w} ${x+h},${y+s-w} ${x},${y+s}" fill="none" stroke="#2b2725" stroke-width="2"/>`);
-}
-drawCube(500, 500, 130);
-for(let i=0; i<6; i++){
-let a = (i*Math.PI)/3;
-drawCube(500+Math.cos(a)*220, 500+Math.sin(a)*220, 75);
-}
-return `<svg viewBox="0 0 1000 1000" class="w-full h-full">${p.join('')}</svg>`;
+  let p = [`<circle cx="500" cy="500" r="450" fill="none" stroke="#2b2725" stroke-width="6"/>`,
+  `<circle cx="500" cy="500" r="435" fill="none" stroke="#2b2725" stroke-width="2"/>`];
+  function drawCube(x, y, s) {
+    let h = s * 0.866, w = s * 0.5;
+    p.push(`<polygon points="${x},${y-s} ${x+h},${y-w} ${x},${y} ${x-h},${y-w}" fill="none" stroke="#2b2725" stroke-width="2"/>`);
+    p.push(`<polygon points="${x},${y} ${x-h},${y-w} ${x-h},${y+s-w} ${x},${y+s}" fill="none" stroke="#2b2725" stroke-width="2"/>`);
+    p.push(`<polygon points="${x},${y} ${x+h},${y-w} ${x+h},${y+s-w} ${x},${y+s}" fill="none" stroke="#2b2725" stroke-width="2"/>`);
+  }
+  drawCube(500, 500, 130);
+  for(let i=0; i<6; i++){
+    let a = (i*Math.PI)/3;
+    drawCube(500+Math.cos(a)*220, 500+Math.sin(a)*220, 75);
+  }
+  return `<svg viewBox="0 0 1000 1000" class="w-full h-full">${p.join('')}</svg>`;
 }
 
 function genTableSvg() {
-let p = [`<circle cx="500" cy="500" r="450" fill="none" stroke="#2b2725" stroke-width="6"/>`,
-`<circle cx="500" cy="500" r="425" fill="none" stroke="#2b2725" stroke-width="2"/>`,
-`<rect x="250" y="250" width="500" height="500" fill="none" stroke="#2b2725" stroke-width="4"/>`,
-`<rect x="250" y="250" width="500" height="500" transform="rotate(45, 500, 500)" fill="none" stroke="#2b2725" stroke-width="3"/>`,
-`<circle cx="500" cy="500" r="120" fill="none" stroke="#2b2725" stroke-width="3"/>`,
-`<circle cx="500" cy="500" r="50" fill="none" stroke="#2b2725" stroke-width="2"/>`];
-for(let i=0; i<8; i++){
-let a = (i*Math.PI)/4;
-p.push(`<line x1="500" y1="500" x2="${(500+Math.cos(a)*425).toFixed(1)}" y2="${(500+Math.sin(a)*425).toFixed(1)}" stroke="#2b2725" stroke-width="2"/>`);
-}
-return `<svg viewBox="0 0 1000 1000" class="w-full h-full">${p.join('')}</svg>`;
+  let p = [`<circle cx="500" cy="500" r="450" fill="none" stroke="#2b2725" stroke-width="6"/>`,
+  `<circle cx="500" cy="500" r="425" fill="none" stroke="#2b2725" stroke-width="2"/>`,
+  `<rect x="250" y="250" width="500" height="500" fill="none" stroke="#2b2725" stroke-width="4"/>`,
+  `<rect x="250" y="250" width="500" height="500" transform="rotate(45, 500, 500)" fill="none" stroke="#2b2725" stroke-width="3"/>`,
+  `<circle cx="500" cy="500" r="120" fill="none" stroke="#2b2725" stroke-width="3"/>`,
+  `<circle cx="500" cy="500" r="50" fill="none" stroke="#2b2725" stroke-width="2"/>`];
+  for(let i=0; i<8; i++){
+    let a = (i*Math.PI)/4;
+    p.push(`<line x1="500" y1="500" x2="${(500+Math.cos(a)*425).toFixed(1)}" y2="${(500+Math.sin(a)*425).toFixed(1)}" stroke="#2b2725" stroke-width="2"/>`);
+  }
+  return `<svg viewBox="0 0 1000 1000" class="w-full h-full">${p.join('')}</svg>`;
 }
 
 function genCelestialSvg() {
-let p = [`<circle cx="500" cy="500" r="450" fill="none" stroke="#2b2725" stroke-width="6"/>`,
-`<circle cx="500" cy="500" r="425" fill="none" stroke="#2b2725" stroke-width="2"/>`,
-`<circle cx="500" cy="500" r="90" fill="none" stroke="#2b2725" stroke-width="3"/>`,
-`<path d="M 500 420 A 80 80 0 0 0 500 580 A 55 80 0 0 1 500 420 Z" fill="none" stroke="#2b2725" stroke-width="2.5"/>`];
-for(let i=0; i<16; i++){
-let a = (i*2*Math.PI)/16;
-let x1 = 500+Math.cos(a)*100, y1 = 500+Math.sin(a)*100;
-let x2 = 500+Math.cos(a)*200, y2 = 500+Math.sin(a)*200;
-p.push(`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#2b2725" stroke-width="2"/>`);
-}
-[260, 340].forEach(r => p.push(`<circle cx="500" cy="500" r="${r}" fill="none" stroke="#2b2725" stroke-width="2" stroke-dasharray="6,6"/>`));
-return `<svg viewBox="0 0 1000 1000" class="w-full h-full">${p.join('')}</svg>`;
+  let p = [`<circle cx="500" cy="500" r="450" fill="none" stroke="#2b2725" stroke-width="6"/>`,
+  `<circle cx="500" cy="500" r="425" fill="none" stroke="#2b2725" stroke-width="2"/>`,
+  `<circle cx="500" cy="500" r="90" fill="none" stroke="#2b2725" stroke-width="3"/>`,
+  `<path d="M 500 420 A 80 80 0 0 0 500 580 A 55 80 0 0 1 500 420 Z" fill="none" stroke="#2b2725" stroke-width="2.5"/>`];
+  for(let i=0; i<16; i++){
+    let a = (i*2*Math.PI)/16;
+    let x1 = 500+Math.cos(a)*100, y1 = 500+Math.sin(a)*100;
+    let x2 = 500+Math.cos(a)*200, y2 = 500+Math.sin(a)*200;
+    p.push(`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#2b2725" stroke-width="2"/>`);
+  }
+  [260, 340].forEach(r => p.push(`<circle cx="500" cy="500" r="${r}" fill="none" stroke="#2b2725" stroke-width="2" stroke-dasharray="6,6"/>`));
+  return `<svg viewBox="0 0 1000 1000" class="w-full h-full">${p.join('')}</svg>`;
 }
 
 function getTemplate(diff, lvl) {
-const mod = (lvl - 1) % 4;
-const cost = lvl === 1 ? 0 : (lvl - 1) * (diff === 'Beginner' ? 120 : diff === 'Intermediate' ? 240 : 400);
-if (mod === 1) return { cat: 'Cube 3D', title: `Isometric Cube #${lvl}`, sub: '3D Matrix', svg: genCubeSvg(), cost };
-if (mod === 2) return { cat: 'Sacred Table', title: `Altar Table Mosaic #${lvl}`, sub: 'Sacred Tile Inlay', svg: genTableSvg(), cost };
-if (mod === 3) return { cat: 'Celestial', title: `Celestial Zodiac Orbit #${lvl}`, sub: 'Sun & Moon Spheres', svg: genCelestialSvg(), cost };
-return { cat: 'Lotus Flower', title: `Lotus Petals Rosette #${lvl}`, sub: 'Concentric Petals', svg: genLotusSvg(diff==='Beginner'?8:diff==='Intermediate'?12:16, lvl), cost };
+  const mod = (lvl - 1) % 4;
+  const cost = lvl === 1 ? 0 : (lvl - 1) * (diff === 'Beginner' ? 120 : diff === 'Intermediate' ? 240 : 400);
+  if (mod === 1) return { cat: 'Cube 3D', title: `Isometric Cube #${lvl}`, sub: '3D Matrix', svg: genCubeSvg(), cost };
+  if (mod === 2) return { cat: 'Sacred Table', title: `Altar Table Mosaic #${lvl}`, sub: 'Sacred Tile Inlay', svg: genTableSvg(), cost };
+  if (mod === 3) return { cat: 'Celestial', title: `Celestial Zodiac Orbit #${lvl}`, sub: 'Sun & Moon Spheres', svg: genCelestialSvg(), cost };
+  return { cat: 'Lotus Flower', title: `Lotus Petals Rosette #${lvl}`, sub: 'Concentric Petals', svg: genLotusSvg(diff==='Beginner'?8:diff==='Intermediate'?12:16, lvl), cost };
 }
 
 // UI NAVIGATION & HELPERS
 function showToast(msg) {
-const t = document.getElementById('toast');
-t.innerText = msg; t.classList.remove('hidden'); t.classList.add('flex');
-setTimeout(() => { t.classList.add('hidden'); t.classList.remove('flex'); }, 3000);
+  const t = document.getElementById('toast');
+  t.innerText = msg; t.classList.remove('hidden'); t.classList.add('flex');
+  setTimeout(() => { t.classList.add('hidden'); t.classList.remove('flex'); }, 3000);
 }
 function updateBadges() {
-document.getElementById('points-badge').innerText = `⭐ ${points.toLocaleString()} PTS`;
-document.getElementById('book-points-badge').innerText = `⭐ ${points.toLocaleString()}`;
-document.getElementById('coloring-points-badge').innerText = `⭐ ${points.toLocaleString()}`;
-['Beginner', 'Intermediate', 'Pro'].forEach(b => {
-document.getElementById(`unlocked-count-${b}`).innerText = `${(unlocked[b]||[]).length}/20 Unlocked`;
-});
-document.getElementById('galerie-count').innerText = gallery.length;
-localStorage.setItem('m_pts', points);
-localStorage.setItem('m_unlocked_v3', JSON.stringify(unlocked));
+  document.getElementById('points-badge').innerText = `⭐ ${points.toLocaleString()} PTS`;
+  document.getElementById('book-points-badge').innerText = `⭐ ${points.toLocaleString()}`;
+  document.getElementById('coloring-points-badge').innerText = `⭐ ${points.toLocaleString()}`;
+  ['Beginner', 'Intermediate', 'Pro'].forEach(b => {
+    document.getElementById(`unlocked-count-${b}`).innerText = `${(unlocked[b]||[]).length}/20 Unlocked`;
+  });
+  document.getElementById('galerie-count').innerText = gallery.length;
+  localStorage.setItem('m_pts', points);
+  localStorage.setItem('m_unlocked_v3', JSON.stringify(unlocked));
 }
 function addMaxMoney() {
-playChime(); points += 10000; updateBadges();
-showToast('🎉 +10,000 ⭐ Zen Coins Added! Unlock any mandala directl
+  playChime(); points += 10000; updateBadges();
+  showToast('🎉 +10,000 ⭐ Zen Coins Added!');
+}
+function showScreen(id) {
+  document.querySelectorAll('#screen-home, #screen-levels, #screen-coloring').forEach(s => s.classList.add('hidden'));
+  document.getElementById(`screen-${id}`).classList.remove('hidden');
+  if(id === 'home') updateBadges();
+}
+function openBook(b) {
+  currentBook = b;
+  document.getElementById('book-title-header').innerText = `${b} Book`;
+  renderLevels();
+  showScreen('levels');
+}
+function renderLevels() {
+  const grid = document.getElementById('levels-grid');
+  grid.innerHTML = '';
+  for(let i=1; i<=20; i++){
+    const t = getTemplate(currentBook, i);
+    if(currentFilter !== 'All' && t.cat !== currentFilter) continue;
+    const isUnlocked = (unlocked[currentBook]||[]).includes(i);
+    const card = document.createElement('div');
+    card.className = `p-3 rounded-2xl border flex flex-col justify-between ${isUnlocked ? 'bg-white border-stone-200 cursor-pointer shadow-sm hover:shadow-md' : 'bg-stone-50 border-stone-200 opacity-80'}`;
+    card.innerHTML = `
+      <div class="aspect-square bg-stone-100 rounded-xl mb-2 flex items-center justify-center p-2 relative overflow-hidden">${t.svg}</div>
+      <div>
+        <div class="text-[10px] font-bold uppercase text-stone-400">${t.cat}</div>
+        <div class="text-xs font-bold truncate">${t.title}</div>
+      </div>
+      <button class="mt-2 w-full py-1.5 rounded-lg text-xs font-bold ${isUnlocked ? 'bg-stone-900 text-white' : 'bg-amber-400 text-stone-950'}">
+        ${isUnlocked ? 'Color Now' : `Unlock ⭐ ${t.cost}`}
+      </button>`;
+    card.onclick = () => {
+      if(isUnlocked) startColoring(i);
+      else {
+        if(points >= t.cost) {
+          points -= t.cost;
+          unlocked[currentBook].push(i);
+          updateBadges(); renderLevels(); playChime();
+        } else showToast('Not enough points!');
+      }
+    };
+    grid.appendChild(card);
+  }
+}
+function startColoring(lvl) {
+  currentLevel = lvl;
+  const t = getTemplate(currentBook, lvl);
+  document.getElementById('current-mandala-title').innerText = t.title;
+  document.getElementById('current-mandala-sub').innerText = `${currentBook} - Level ${lvl}`;
+  document.getElementById('svg-overlay').innerHTML = t.svg;
+  showScreen('coloring');
+  initCanvas();
+}
+function initCanvas() {
+  const c = document.getElementById('paint-canvas');
+  c.width = 1000; c.height = 1000;
+  const ctx = c.getContext('2d');
+  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0,0,1000,1000);
+}
+function setFilter(cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-tab').forEach(b => {
+    b.className = `filter-tab px-3 py-1 rounded-full text-xs font-semibold ${b.dataset.cat === cat ? 'bg-stone-900 text-white' : 'bg-stone-200 text-stone-700'}`;
+  });
+  renderLevels();
+}
+function toggleGalerie(open) {
+  document.getElementById('modal-galerie').style.display = open ? 'flex' : 'none';
+}
+
+window.onload = () => {
+  updateBadges();
+  // تهيئة الاستجابة لللمس على جميع الأزرار
+  document.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('touchstart', function() {}, { passive: true });
+  });
+};
+</script>
+</body>
+</html>
