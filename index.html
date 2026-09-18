@@ -115,7 +115,7 @@
         <span id="ch1">❤️</span><span id="ch2">❤️</span><span id="ch3">❤️</span>
       </div>
       <button onclick="resetZoom()" class="p-1.5 bg-stone-100 rounded-lg hover:bg-stone-200 text-xs font-bold hidden sm:block">🔍 Reset</button>
-      <button onclick="clearCanvas()" class="p-1.5 bg-stone-100 rounded-lg hover:bg-stone-200 text-xs font-bold">🗑️</button>
+      <button onclick="clearCanvas()" class="p-1.5 bg-stone-100 rounded-lg hover:bg-stone-200 text-xs font-bold" title="Clear All">🗑️</button>
     </div>
   </header>
 
@@ -139,11 +139,13 @@
         <button onclick="setPen('fineBrush')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-white shadow-sm" data-pen="fineBrush">🖌️ Brush</button>
         <button onclick="setPen('marker')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="marker">🖍️ Marker</button>
         <button onclick="setPen('pencil')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="pencil">✏️ Pencil</button>
+        <!-- Eraser Tool -->
+        <button onclick="setPen('eraser')" class="pen-btn px-2.5 py-1 rounded-lg text-xs font-semibold text-stone-500" data-pen="eraser">🧹 Eraser</button>
         <button onclick="undoAction()" class="px-2.5 py-1 rounded-lg text-xs font-bold text-stone-700 bg-stone-200 hover:bg-stone-300 transition active:scale-95">↩️ Undo</button>
         <button onclick="redoAction()" class="px-2.5 py-1 rounded-lg text-xs font-bold text-stone-700 bg-stone-200 hover:bg-stone-300 transition active:scale-95">↪️ Redo</button>
       </div>
       <div class="flex items-center gap-3 shrink-0 text-xs text-stone-600">
-        <label class="flex items-center gap-1 font-semibold text-[11px]">Size <input id="brush-size" type="range" min="2" max="30" value="6" class="w-16 accent-stone-900" oninput="brushSize=+this.value"></label>
+        <label class="flex items-center gap-1 font-semibold text-[11px]">Size <input id="brush-size" type="range" min="2" max="40" value="6" class="w-16 accent-stone-900" oninput="brushSize=+this.value"></label>
       </div>
     </div>
     <!-- Swatches Grid -->
@@ -323,6 +325,7 @@ let hearts = +(localStorage.getItem('m_hearts_v10') || 3);
 let currentBook = 'Beginner';
 let currentLevel = 1;
 let selectedColor = PALETTE[0].hex;
+let currentTool = 'fineBrush'; // fineBrush, marker, pencil, eraser
 let brushSize = 6;
 let unlocked = JSON.parse(localStorage.getItem('m_unlocked_v10') || '{"Beginner":[1],"Intermediate":[1],"Pro":[1]}');
 let gallery = JSON.parse(localStorage.getItem('m_gallery_v10') || '[]');
@@ -371,11 +374,12 @@ function renderPalette() {
   PALETTE.forEach((item) => {
     const btn = document.createElement('button');
     btn.title = item.name;
-    btn.className = `palette-btn w-7 h-7 rounded-full shrink-0 border border-black/10 shadow-sm transition ${item.category === 'glossy' ? 'glossy' : ''} ${item.hex === selectedColor ? 'active' : ''}`;
+    btn.className = `palette-btn w-7 h-7 rounded-full shrink-0 border border-black/10 shadow-sm transition ${item.category === 'glossy' ? 'glossy' : ''} ${item.hex === selectedColor && currentTool !== 'eraser' ? 'active' : ''}`;
     btn.style.backgroundColor = item.hex;
     btn.style.color = item.hex;
     btn.onclick = () => {
       selectedColor = item.hex;
+      if (currentTool === 'eraser') setPen('fineBrush');
       document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
     };
@@ -501,6 +505,11 @@ function clearCanvas() {
   loadSVGToCanvas(dataUrl, ctx);
 }
 
+function redrawBlackLinesOver() {
+  // أعد كتابة الحدود المحددة باللون الأسود للحفاظ على معالم الرسمة ناصعة
+  ctx.drawImage(maskCanvas, 0, 0);
+}
+
 function getCanvasCoordinates(e) {
   const rect = canvas.getBoundingClientRect();
   const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -517,7 +526,15 @@ function startDrawing(e) {
   isDrawing = true;
   const pos = getCanvasCoordinates(e);
   ctx.beginPath(); ctx.moveTo(pos.x, pos.y);
-  ctx.strokeStyle = selectedColor; ctx.lineWidth = brushSize;
+  
+  if (currentTool === 'eraser') {
+    ctx.strokeStyle = '#FFFFFF'; // اللون الأبيض للتمشية والمحاية
+    ctx.lineWidth = brushSize * 2; // تكبير حجم الممحاة لتسهيل الاستخدام
+  } else {
+    ctx.strokeStyle = selectedColor;
+    ctx.lineWidth = brushSize;
+  }
+  
   ctx.lineCap = 'round'; ctx.lineJoin = 'round';
 }
 
@@ -527,7 +544,15 @@ function draw(e) {
   ctx.lineTo(pos.x, pos.y); ctx.stroke();
 }
 
-function stopDrawing() { isDrawing = false; }
+function stopDrawing() { 
+  if (isDrawing) {
+    isDrawing = false;
+    // إذا استخدم المستخدم الممحاة، نعيد بناء خطوط الرسمة السوداء للحفاظ على شكل الماندالا
+    if (currentTool === 'eraser') {
+      redrawBlackLinesOver();
+    }
+  }
+}
 
 canvas.addEventListener('mousedown', startDrawing);
 canvas.addEventListener('mousemove', draw);
@@ -559,11 +584,17 @@ stage.addEventListener('touchend', (e) => {
 });
 
 function setPen(pen) {
+  currentTool = pen;
   document.querySelectorAll('.pen-btn').forEach(b => {
     b.classList.remove('bg-white', 'shadow-sm'); b.classList.add('text-stone-500');
   });
   const activeBtn = document.querySelector(`[data-pen="${pen}"]`);
   if (activeBtn) { activeBtn.classList.add('bg-white', 'shadow-sm'); activeBtn.classList.remove('text-stone-500'); }
+  if (pen === 'eraser') {
+    document.querySelectorAll('.palette-btn').forEach(b => b.classList.remove('active'));
+  } else {
+    renderPalette();
+  }
 }
 
 function startScanProcess() {
